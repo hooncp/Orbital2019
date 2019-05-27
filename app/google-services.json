@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "481059422742",
+    "firebase_url": "https://islandmark-67336.firebaseio.com",
+    "project_id": "islandmark-67336",
+    "storage_bucket": "islandmark-67336.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:481059422742:android:ac532a7a27ff4ec7",
+        "android_client_info": {
+          "package_name": "com.example.islandmark"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "481059422742-54br7nakc939ini2j9j40bd53fsve681.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVS4bQG3eHlF0YdMPjRfxVa7JnBH8ViZY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "481059422742-54br7nakc939ini2j9j40bd53fsve681.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
