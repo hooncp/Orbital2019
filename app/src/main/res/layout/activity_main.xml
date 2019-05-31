@@ -22,7 +22,6 @@
 
 
     <include
-        layout="@layout/bottom_nav_bar"
-        />
+        layout="@layout/bottom_nav_bar" />
 
 </android.support.design.widget.CoordinatorLayout>

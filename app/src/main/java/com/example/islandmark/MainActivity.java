@@ -3,9 +3,13 @@ package com.example.islandmark;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -21,7 +25,10 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AccountFragment.OnFragmentInteractionListener,
+        HomeFragment.OnFragmentInteractionListener, MapViewFragment.OnFragmentInteractionListener,
+        LandmarkFragment.OnFragmentInteractionListener{
+
     private FusedLocationProviderClient client;
     TextView currentLocation;
 
@@ -30,27 +37,48 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Home Screen");
         setSupportActionBar(toolbar);
+        displaySelectedScreen(new HomeFragment());
 
-        Button startBtn = findViewById(R.id.startBtn);
-        Button detailsBtn = findViewById(R.id.detailsBtn);
-        currentLocation = findViewById(R.id.currentLocation);
-        client = LocationServices.getFusedLocationProviderClient(this);
-        requestPermission();
-
-        detailsBtn.setOnClickListener(new View.OnClickListener() {
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onClick(View view) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment fragment = null;
+                switch (item.getItemId()) {
+                    case R.id.navigation_home:
+                        fragment = new HomeFragment();
+                        break;
+                    case R.id.navigation_showlandmarks:
+                        fragment = new LandmarkFragment();
+                        break;
+                    case R.id.navigation_mapview:
+                        fragment = new MapViewFragment();
+                        break;
+                    case R.id.navigation_account:
+                        fragment = new AccountFragment();
+                        break;
+                }
+                return displaySelectedScreen(fragment);
             }
         });
 
-        startBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Starting application", Snackbar.LENGTH_LONG).show();
-            }
-        });
+//
+//        currentLocation = findViewById(R.id.currentLocation);
+//        client = LocationServices.getFusedLocationProviderClient(this);
+//        requestPermission();
+
+    }
+
+    public boolean displaySelectedScreen(Fragment fragment) {
+        if (fragment != null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, fragment)
+                    .commit();
+            return true;
+        }
+        return false;
 
     }
 
@@ -96,5 +124,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri){
+        //you can leave it empty
     }
 }
