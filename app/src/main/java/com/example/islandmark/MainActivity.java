@@ -1,26 +1,16 @@
 package com.example.islandmark;
 
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.TextView;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
@@ -29,9 +19,6 @@ public class MainActivity extends AppCompatActivity implements AccountFragment.O
         HomeFragment.OnFragmentInteractionListener, MapViewFragment.OnFragmentInteractionListener,
         LandmarkFragment.OnFragmentInteractionListener{
 
-    private FusedLocationProviderClient client;
-    TextView currentLocation;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements AccountFragment.O
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         displaySelectedScreen(new HomeFragment());
+        requestPermission();
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -63,11 +51,10 @@ public class MainActivity extends AppCompatActivity implements AccountFragment.O
             }
         });
 
-//
-//        currentLocation = findViewById(R.id.currentLocation);
-//        client = LocationServices.getFusedLocationProviderClient(this);
-//        requestPermission();
+    }
 
+    private void requestPermission(){
+        ActivityCompat.requestPermissions(this, new String[]{ACCESS_FINE_LOCATION}, 1);
     }
 
     public boolean displaySelectedScreen(Fragment fragment) {
@@ -82,27 +69,6 @@ public class MainActivity extends AppCompatActivity implements AccountFragment.O
 
     }
 
-    public void clickLocation(View view) {
-        if (ActivityCompat.checkSelfPermission(MainActivity.this, ACCESS_FINE_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED){
-
-        }
-        client.getLastLocation().addOnSuccessListener(MainActivity.this, new OnSuccessListener<Location>() {
-            @Override
-            public void onSuccess(Location location) {
-                if (location != null) {
-                    double latitude = location.getLatitude();
-                    double longitude = location.getLongitude();
-                    String message = "Latitude = " + latitude + " Longitude = " + longitude;
-                   currentLocation.setText(message);
-                }
-            }
-        });
-    }
-
-    private void requestPermission(){
-        ActivityCompat.requestPermissions(this, new String[]{ACCESS_FINE_LOCATION}, 1);
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

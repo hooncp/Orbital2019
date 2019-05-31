@@ -30,6 +30,7 @@ public class LandmarkFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().setTitle("Landmarks");
+
     }
 
     @Override

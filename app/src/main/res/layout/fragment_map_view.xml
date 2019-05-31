@@ -11,7 +11,6 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="Current Location"
-    android:onClick="clickLocation"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintHorizontal_bias="0.500"
     app:layout_constraintLeft_toLeftOf="parent"

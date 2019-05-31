@@ -1,12 +1,23 @@
 package com.example.islandmark;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
+
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 
 /**
@@ -20,6 +31,8 @@ import android.view.ViewGroup;
 public class MapViewFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+    TextView currentLocation;
+    private FusedLocationProviderClient client;
 
     public MapViewFragment() {
         // Required empty public constructor
@@ -29,14 +42,36 @@ public class MapViewFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().setTitle("Map View");
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_map_view, container, false);
+        View view =inflater.inflate(R.layout.fragment_map_view, container, false);
+        currentLocation = view.findViewById(R.id.currentLocation);
+        client = LocationServices.getFusedLocationProviderClient(getActivity());
+        Button currentLocationBtn = view.findViewById(R.id.currentLocationBtn);
+        currentLocationBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (ActivityCompat.checkSelfPermission(getActivity(), ACCESS_FINE_LOCATION) !=
+                        PackageManager.PERMISSION_GRANTED){
+                }
+                client.getLastLocation().addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        if (location != null) {
+                            double latitude = location.getLatitude();
+                            double longitude = location.getLongitude();
+                            String message = "Latitude = " + latitude + " Longitude = " + longitude;
+                            currentLocation.setText(message);
+                        }
+                    }
+                });
+            };
+        });
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -44,6 +79,10 @@ public class MapViewFragment extends Fragment {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
+    }
+
+    public void clickLocation(View view) {
+
     }
 
     @Override
