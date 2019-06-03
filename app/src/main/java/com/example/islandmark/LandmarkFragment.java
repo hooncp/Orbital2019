@@ -3,11 +3,25 @@ package com.example.islandmark;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+
+import com.example.islandmark.model.LandmarkDetails;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -21,6 +35,9 @@ import android.view.ViewGroup;
 public class LandmarkFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+    private List<LandmarkDetails> landmarkDetailsList = new ArrayList<>();
+    private ListView listView;
+    private LandmarkDetailsAdapter landmarkDetailsAdapter;
 
     public LandmarkFragment() {
         // Required empty public constructor
@@ -30,14 +47,18 @@ public class LandmarkFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().setTitle("Landmarks");
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_landmark, container, false);
+        View view = inflater.inflate(R.layout.fragment_landmark, container, false);
+        landmarkDetailsAdapter = new LandmarkDetailsAdapter(getContext(), landmarkDetailsList);
+        listView = view.findViewById(R.id.landmark_details_list_view);
+        listView.setAdapter(landmarkDetailsAdapter);
+        loadUserData();
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -62,6 +83,34 @@ public class LandmarkFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    private void loadUserData() {
+        FirebaseFirestore fs = FirebaseFirestore.getInstance();
+        fs.collection(LandmarkDetails.landmarkDetailsKey).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                List<DocumentSnapshot> documents = task.getResult().getDocuments();
+
+                // clean up the list to prevent double copies
+                landmarkDetailsList.removeAll(landmarkDetailsList);
+
+                for (DocumentSnapshot document : documents) {
+
+                    if (document.contains(LandmarkDetails.descriptionKey) && document.contains(LandmarkDetails.locationKey)
+                            && document.contains(LandmarkDetails.nameKey)) {
+
+                        String description = (String) document.get(LandmarkDetails.descriptionKey);
+                        String name = (String) document.get(LandmarkDetails.nameKey);
+                        GeoPoint location = (GeoPoint)document.get(LandmarkDetails.locationKey);
+                        LandmarkDetails details = new LandmarkDetails(description, name, location);
+                        //Log.d("LANDMARK FRAGMENT", details.toString());
+                        landmarkDetailsAdapter.add(details);
+                    }
+                }
+                landmarkDetailsAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     /**
