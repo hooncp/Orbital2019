@@ -4,12 +4,14 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.islandmark.model.LandmarkDetails;
@@ -58,10 +60,40 @@ public class LandmarkFragment extends Fragment {
         listView = view.findViewById(R.id.landmark_details_list_view);
         listView.setAdapter(landmarkDetailsAdapter);
         loadUserData();
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, final View view,
+                                    int position, long id) {
+                LandmarkDetails landmarkDetails = (LandmarkDetails)parent.getItemAtPosition(position);
+                Bundle args = new Bundle();
+                args.putString("docID", landmarkDetails.getDocumentID());
+                LandmarkDetailsFragment newFragment = new LandmarkDetailsFragment();
+                newFragment.setArguments(args);
+
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, newFragment)
+                        .commit();
+                //Snackbar.make(view, "moving to fragment details", Snackbar.LENGTH_LONG).show();
+            }
+        });
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+    public boolean displaySelectedScreen(Fragment fragment) {
+        if (fragment != null) {
+            getFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, fragment)
+                    .commit();
+            return true;
+        }
+        return false;
+    }
+
+
+        // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -103,8 +135,8 @@ public class LandmarkFragment extends Fragment {
                         String description = (String) document.get(LandmarkDetails.descriptionKey);
                         String name = (String) document.get(LandmarkDetails.nameKey);
                         GeoPoint location = (GeoPoint)document.get(LandmarkDetails.locationKey);
-                        LandmarkDetails details = new LandmarkDetails(description, name, location);
-                        //Log.d("LANDMARK FRAGMENT", details.toString());
+                        String documentID = (String) document.getId();
+                        LandmarkDetails details = new LandmarkDetails(description, name, location,documentID);
                         landmarkDetailsAdapter.add(details);
                     }
                 }

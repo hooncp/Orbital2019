@@ -11,11 +11,17 @@ public class LandmarkDetails {
     public String description;
     public String name;
     public GeoPoint location;
+    private String documentID;
 
-    public LandmarkDetails (String description , String name, GeoPoint location){
+    public LandmarkDetails (String description , String name, GeoPoint location, String documentID){
         this.description = description;
         this.name = name;
         this.location = location;
+        this.documentID = documentID;
+    }
+
+    public String getDocumentID() {
+        return documentID;
     }
 //    @Override
 //    public String toString() {

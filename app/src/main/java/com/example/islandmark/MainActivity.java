@@ -17,7 +17,7 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class MainActivity extends AppCompatActivity implements AccountFragment.OnFragmentInteractionListener,
         HomeFragment.OnFragmentInteractionListener, MapViewFragment.OnFragmentInteractionListener,
-        LandmarkFragment.OnFragmentInteractionListener{
+        LandmarkFragment.OnFragmentInteractionListener, LandmarkDetailsFragment.OnFragmentInteractionListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +66,6 @@ public class MainActivity extends AppCompatActivity implements AccountFragment.O
             return true;
         }
         return false;
-
     }
 
 
