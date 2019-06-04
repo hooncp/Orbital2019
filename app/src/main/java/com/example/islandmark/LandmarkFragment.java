@@ -75,21 +75,9 @@ public class LandmarkFragment extends Fragment {
                         .beginTransaction()
                         .replace(R.id.fragment_container, newFragment)
                         .commit();
-                //Snackbar.make(view, "moving to fragment details", Snackbar.LENGTH_LONG).show();
             }
         });
         return view;
-    }
-
-    public boolean displaySelectedScreen(Fragment fragment) {
-        if (fragment != null) {
-            getFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, fragment)
-                    .commit();
-            return true;
-        }
-        return false;
     }
 
 

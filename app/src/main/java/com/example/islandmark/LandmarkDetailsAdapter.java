@@ -33,7 +33,7 @@ public class LandmarkDetailsAdapter extends ArrayAdapter<LandmarkDetails> {
 
         nameTV.setText(values.get(position).name);
         descriptionTV.setText(values.get(position).description);
-        //locationTV.setText(position);
+        locationTV.setText(values.get(position).distance +" m");
         return rowView;
     }
 

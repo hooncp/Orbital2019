@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.islandmark.model.LandmarkDetails;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -66,6 +67,8 @@ public class MapViewFragment extends Fragment {
                             double longitude = location.getLongitude();
                             String message = "Latitude = " + latitude + " Longitude = " + longitude;
                             currentLocation.setText(message);
+                            LandmarkDetails.currentlat = latitude;
+                            LandmarkDetails.currentlong = longitude;
                         }
                     }
                 });

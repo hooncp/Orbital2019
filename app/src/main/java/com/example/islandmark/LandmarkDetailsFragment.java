@@ -3,10 +3,12 @@ package com.example.islandmark;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 
 /**
@@ -19,6 +21,8 @@ import android.view.ViewGroup;
  */
 public class LandmarkDetailsFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
+    String docID;
+    Button locateBtn;
 
     public LandmarkDetailsFragment() {
         // Required empty public constructor
@@ -27,17 +31,25 @@ public class LandmarkDetailsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            docID = bundle.getString("docID");
+        }
+        getActivity().setTitle(docID);
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_landmark_details, container, false);
-        Bundle bundle = this.getArguments();
-        if (bundle != null) {
-            String docID = bundle.getString("docID");
-        }
+        final View view = inflater.inflate(R.layout.fragment_landmark_details, container, false);
+        locateBtn = view.findViewById(R.id.locateBtn);
+        locateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(view, "moving to map view", Snackbar.LENGTH_LONG).show();
+            }
+        });
         return view;
     }
 
