@@ -1,5 +1,7 @@
 package com.example.islandmark;
 
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,12 +14,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
+import com.example.islandmark.model.LandmarkDetails;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
+
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 
 public class MainActivity extends AppCompatActivity implements AccountFragment.OnFragmentInteractionListener,
         HomeFragment.OnFragmentInteractionListener, MapViewFragment.OnFragmentInteractionListener,
         LandmarkFragment.OnFragmentInteractionListener, LandmarkDetailsFragment.OnFragmentInteractionListener{
+
+    private FusedLocationProviderClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements AccountFragment.O
         setSupportActionBar(toolbar);
         displaySelectedScreen(new HomeFragment());
         requestPermission();
-
+        client = LocationServices.getFusedLocationProviderClient(this);
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -47,10 +56,29 @@ public class MainActivity extends AppCompatActivity implements AccountFragment.O
                         fragment = new AccountFragment();
                         break;
                 }
+                checkLocation();
                 return displaySelectedScreen(fragment);
             }
         });
 
+    }
+
+    //lat and longitude of current location stored in LandmarkDetails model.
+    private void checkLocation(){
+        if (ActivityCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED){
+        }
+        client.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                if (location != null) {
+                    double latitude = location.getLatitude();
+                    double longitude = location.getLongitude();
+                    LandmarkDetails.currentlat = latitude;
+                    LandmarkDetails.currentlong = longitude;
+                }
+            }
+        });
     }
 
     private void requestPermission(){

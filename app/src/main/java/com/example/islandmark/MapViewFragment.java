@@ -32,8 +32,6 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 public class MapViewFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
-    TextView currentLocation;
-    private FusedLocationProviderClient client;
 
     public MapViewFragment() {
         // Required empty public constructor
@@ -50,30 +48,6 @@ public class MapViewFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =inflater.inflate(R.layout.fragment_map_view, container, false);
-        currentLocation = view.findViewById(R.id.currentLocation);
-        client = LocationServices.getFusedLocationProviderClient(getActivity());
-        Button currentLocationBtn = view.findViewById(R.id.currentLocationBtn);
-        currentLocationBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (ActivityCompat.checkSelfPermission(getActivity(), ACCESS_FINE_LOCATION) !=
-                        PackageManager.PERMISSION_GRANTED){
-                }
-                client.getLastLocation().addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        if (location != null) {
-                            double latitude = location.getLatitude();
-                            double longitude = location.getLongitude();
-                            String message = "Latitude = " + latitude + " Longitude = " + longitude;
-                            currentLocation.setText(message);
-                            LandmarkDetails.currentlat = latitude;
-                            LandmarkDetails.currentlong = longitude;
-                        }
-                    }
-                });
-            };
-        });
         return view;
     }
 
