@@ -23,6 +23,7 @@ import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -128,6 +129,14 @@ public class LandmarkFragment extends Fragment {
                         landmarkDetailsAdapter.add(details);
                     }
                 }
+                landmarkDetailsAdapter.sort(new Comparator<LandmarkDetails>() {
+                    @Override
+                    public int compare(LandmarkDetails o1, LandmarkDetails o2) {
+                        int a = o1.distance;
+                        int b = o2.distance;
+                        return a - b;
+                    }
+                });
                 landmarkDetailsAdapter.notifyDataSetChanged();
             }
         });

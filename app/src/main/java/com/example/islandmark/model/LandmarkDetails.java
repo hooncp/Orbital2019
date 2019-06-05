@@ -2,7 +2,7 @@ package com.example.islandmark.model;
 
 import com.google.firebase.firestore.GeoPoint;
 
-public class LandmarkDetails implements Comparable<LandmarkDetails>{
+public class LandmarkDetails{
     public static final String landmarkDetailsKey = "landmarks"; //collection
     public static final String descriptionKey = "descriptionlong"; //field
     public static final String locationKey = "location"; //field
@@ -48,12 +48,4 @@ public class LandmarkDetails implements Comparable<LandmarkDetails>{
         int finalvalue = ((int)Math.round(d/10)) * 10;
         return finalvalue;
     }
-
-    @Override
-    public int compareTo(LandmarkDetails o) {
-        int a = o.distance;
-        int b = this.distance;
-        return a - b;
-    }
-
 }
