@@ -1,24 +1,17 @@
 package com.example.islandmark;
 
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
+
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 
-import com.example.islandmark.model.LandmarkDetails;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
-
-import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 
 
 /**
@@ -29,9 +22,10 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
  * Use the {@link MapViewFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MapViewFragment extends Fragment {
+public class MapViewFragment extends Fragment implements OnMapReadyCallback {
 
     private OnFragmentInteractionListener mListener;
+    private GoogleMap map;
 
     public MapViewFragment() {
         // Required empty public constructor
@@ -77,6 +71,19 @@ public class MapViewFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        map = googleMap;
+        initializeMap();
+    }
+
+    private void initializeMap() {
+        if (map == null) {
+            SupportMapFragment mapFrag = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+            mapFrag.getMapAsync(this);
+        }
     }
 
     /**
