@@ -4,7 +4,7 @@ import com.google.firebase.firestore.GeoPoint;
 
 public class LandmarkDetails implements Comparable<LandmarkDetails>{
     public static final String landmarkDetailsKey = "landmarks"; //collection
-    public static final String descriptionKey = "description"; //field
+    public static final String descriptionKey = "descriptionlong"; //field
     public static final String locationKey = "location"; //field
     public static final String nameKey = "name"; //field
 
@@ -45,8 +45,7 @@ public class LandmarkDetails implements Comparable<LandmarkDetails>{
                         Math.sin(Δλ/2) * Math.sin(Δλ/2) ;
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
         double d = R * c;
-        int ten = 10;
-        int finalvalue = ((int)Math.round(d/10)) * ten;
+        int finalvalue = ((int)Math.round(d/10)) * 10;
         return finalvalue;
     }
 
