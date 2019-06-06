@@ -1,5 +1,6 @@
 package com.example.islandmark;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -38,7 +39,7 @@ import java.util.List;
 public class LandmarkFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
-    private List<LandmarkDetails> landmarkDetailsList = new ArrayList<>();
+    private List<LandmarkDetails> landmarkDetailsList;
     private ListView listView;
     private LandmarkDetailsAdapter landmarkDetailsAdapter;
 
@@ -57,16 +58,26 @@ public class LandmarkFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_landmark, container, false);
+        MainActivity sa = (MainActivity) getActivity();
+        landmarkDetailsList = sa.getList();
         landmarkDetailsAdapter = new LandmarkDetailsAdapter(getContext(), landmarkDetailsList);
         listView = view.findViewById(R.id.landmark_details_list_view);
         listView.setAdapter(landmarkDetailsAdapter);
-        loadUserData();
+        landmarkDetailsAdapter.sort(new Comparator<LandmarkDetails>() {
+            @Override
+            public int compare(LandmarkDetails o1, LandmarkDetails o2) {
+                int a = o1.distance;
+                int b = o2.distance;
+                return a - b;
+            }
+        });
+        landmarkDetailsAdapter.notifyDataSetChanged();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, final View view,
                                     int position, long id) {
-                LandmarkDetails landmarkDetails = (LandmarkDetails)parent.getItemAtPosition(position);
+                LandmarkDetails landmarkDetails = (LandmarkDetails) parent.getItemAtPosition(position);
                 Bundle args = new Bundle();
                 args.putString("docID", landmarkDetails.getDocumentID());
                 LandmarkDetailsFragment newFragment = new LandmarkDetailsFragment();
@@ -82,7 +93,7 @@ public class LandmarkFragment extends Fragment {
     }
 
 
-        // TODO: Rename method, update argument and hook method into UI event
+    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -104,42 +115,6 @@ public class LandmarkFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    private void loadUserData() {
-        FirebaseFirestore fs = FirebaseFirestore.getInstance();
-        fs.collection(LandmarkDetails.landmarkDetailsKey).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                List<DocumentSnapshot> documents = task.getResult().getDocuments();
-
-                // clean up the list to prevent double copies
-                landmarkDetailsList.removeAll(landmarkDetailsList);
-
-                for (DocumentSnapshot document : documents) {
-
-                    if (document.contains(LandmarkDetails.descriptionKey) && document.contains(LandmarkDetails.locationKey)
-                            && document.contains(LandmarkDetails.nameKey)) {
-
-                        String description = (String) document.get(LandmarkDetails.descriptionKey);
-                        String name = (String) document.get(LandmarkDetails.nameKey);
-                        GeoPoint location = (GeoPoint)document.get(LandmarkDetails.locationKey);
-                        String documentID = (String) document.getId();
-                        LandmarkDetails details = new LandmarkDetails(description, name, location,documentID);
-                        landmarkDetailsAdapter.add(details);
-                    }
-                }
-                landmarkDetailsAdapter.sort(new Comparator<LandmarkDetails>() {
-                    @Override
-                    public int compare(LandmarkDetails o1, LandmarkDetails o2) {
-                        int a = o1.distance;
-                        int b = o2.distance;
-                        return a - b;
-                    }
-                });
-                landmarkDetailsAdapter.notifyDataSetChanged();
-            }
-        });
     }
 
     /**

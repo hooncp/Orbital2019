@@ -1,8 +1,11 @@
 package com.example.islandmark.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.firebase.firestore.GeoPoint;
 
-public class LandmarkDetails{
+public class LandmarkDetails implements Parcelable {
     public static final String landmarkDetailsKey = "landmarks"; //collection
     public static final String descriptionKey = "descriptionlong"; //field
     public static final String locationKey = "location"; //field
@@ -47,5 +50,15 @@ public class LandmarkDetails{
         double d = R * c;
         int finalvalue = ((int)Math.round(d/10)) * 10;
         return finalvalue;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
     }
 }

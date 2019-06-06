@@ -17,7 +17,17 @@ import android.view.MenuItem;
 import com.example.islandmark.model.LandmarkDetails;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
@@ -27,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements AccountFragment.O
         LandmarkFragment.OnFragmentInteractionListener, LandmarkDetailsFragment.OnFragmentInteractionListener{
 
     private FusedLocationProviderClient client;
+    private List<LandmarkDetails> landmarkDetailsList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements AccountFragment.O
         displaySelectedScreen(new HomeFragment());
         requestPermission();
         client = LocationServices.getFusedLocationProviderClient(this);
+        checkLocation();
+        loadDetailsData();
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -61,6 +74,38 @@ public class MainActivity extends AppCompatActivity implements AccountFragment.O
             }
         });
 
+    }
+
+    private void loadDetailsData() {
+        FirebaseFirestore fs = FirebaseFirestore.getInstance();
+        fs.collection(LandmarkDetails.landmarkDetailsKey).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                List<DocumentSnapshot> documents = task.getResult().getDocuments();
+
+                // clean up the list to prevent double copies
+                landmarkDetailsList = new ArrayList<>();
+                landmarkDetailsList.removeAll(landmarkDetailsList);
+
+                for (DocumentSnapshot document : documents) {
+
+                    if (document.contains(LandmarkDetails.descriptionKey) && document.contains(LandmarkDetails.locationKey)
+                            && document.contains(LandmarkDetails.nameKey)) {
+
+                        String description = (String) document.get(LandmarkDetails.descriptionKey);
+                        String name = (String) document.get(LandmarkDetails.nameKey);
+                        GeoPoint location = (GeoPoint)document.get(LandmarkDetails.locationKey);
+                        String documentID = (String) document.getId();
+                        LandmarkDetails details = new LandmarkDetails(description, name, location,documentID);
+                        landmarkDetailsList.add(details);
+                    }
+                }
+            }
+        });
+    }
+
+    public List<LandmarkDetails> getList(){
+        return landmarkDetailsList;
     }
 
     //lat and longitude of current location stored in LandmarkDetails model.
