@@ -17,6 +17,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.List;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -79,10 +81,19 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
-        LatLng sydney = new LatLng(LandmarkDetails.currentlat, LandmarkDetails.currentlong);
-        googleMap.addMarker(new MarkerOptions().position(sydney)
-                .title("Marker in Sydney"));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng currentlocation = new LatLng(LandmarkDetails.currentlat, LandmarkDetails.currentlong);
+        googleMap.addMarker(new MarkerOptions().position(currentlocation)
+                .title("Current Location"));
+        MainActivity main= (MainActivity)getActivity();
+        List<LandmarkDetails> landmarkDetailsList = main.getList();
+        for (LandmarkDetails landmark: landmarkDetailsList){
+            double longitude = landmark.location.getLongitude();
+            double latitude = landmark.location.getLatitude();
+            LatLng temp = new LatLng(latitude, longitude);
+            googleMap.addMarker(new MarkerOptions().position(temp)
+                    .title(landmark.name));
+        }
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentlocation, 13.0f));
     }
 
     private void initializeMap() {

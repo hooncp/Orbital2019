@@ -58,8 +58,8 @@ public class LandmarkFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_landmark, container, false);
-        MainActivity sa = (MainActivity) getActivity();
-        landmarkDetailsList = sa.getList();
+        MainActivity main = (MainActivity) getActivity();
+        landmarkDetailsList = main.getList();
         landmarkDetailsAdapter = new LandmarkDetailsAdapter(getContext(), landmarkDetailsList);
         listView = view.findViewById(R.id.landmark_details_list_view);
         listView.setAdapter(landmarkDetailsAdapter);
@@ -78,6 +78,7 @@ public class LandmarkFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, final View view,
                                     int position, long id) {
                 LandmarkDetails landmarkDetails = (LandmarkDetails) parent.getItemAtPosition(position);
+                //TODO after implementing Parcelable, just pass the object through, no need to read the database again
                 Bundle args = new Bundle();
                 args.putString("docID", landmarkDetails.getDocumentID());
                 LandmarkDetailsFragment newFragment = new LandmarkDetailsFragment();
