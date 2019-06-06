@@ -80,7 +80,7 @@ public class LandmarkFragment extends Fragment {
                 LandmarkDetails landmarkDetails = (LandmarkDetails) parent.getItemAtPosition(position);
                 //TODO after implementing Parcelable, just pass the object through, no need to read the database again
                 Bundle args = new Bundle();
-                args.putString("docID", landmarkDetails.getDocumentID());
+                args.putParcelable("LANDMARKOBJ", landmarkDetails);
                 LandmarkDetailsFragment newFragment = new LandmarkDetailsFragment();
                 newFragment.setArguments(args);
 

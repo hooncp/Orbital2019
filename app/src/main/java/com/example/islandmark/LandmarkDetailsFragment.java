@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.islandmark.model.LandmarkDetails;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,8 +23,8 @@ import android.widget.Button;
  */
 public class LandmarkDetailsFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
-    String docID;
     Button locateBtn;
+    LandmarkDetails landmark;
 
     public LandmarkDetailsFragment() {
         // Required empty public constructor
@@ -33,9 +35,9 @@ public class LandmarkDetailsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            docID = bundle.getString("docID");
+            landmark = bundle.getParcelable("LANDMARKOBJ");
         }
-        getActivity().setTitle(docID);
+        getActivity().setTitle(landmark.getDocumentID());
 
     }
 
@@ -47,7 +49,15 @@ public class LandmarkDetailsFragment extends Fragment {
         locateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Snackbar.make(view, "moving to map view", Snackbar.LENGTH_LONG).show();
+                Bundle args = new Bundle();
+                args.putParcelable("LANDMARKOBJ", landmark);
+                MapViewFragment mapFragment = new MapViewFragment();
+                mapFragment.setArguments(args);
+
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, mapFragment)
+                        .commit();
             }
         });
         return view;

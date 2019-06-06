@@ -59,6 +59,28 @@ public class LandmarkDetails implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-
+        dest.writeString(description);
+        dest.writeString(name);
+        dest.writeString(documentID);
+        dest.writeInt(distance);
     }
+    protected LandmarkDetails(Parcel in) {
+        description = in.readString();
+        name = in.readString();
+        documentID = in.readString();
+        distance = in.readInt();
+    }
+
+    public static final Creator<LandmarkDetails> CREATOR = new Creator<LandmarkDetails>() {
+        @Override
+        public LandmarkDetails createFromParcel(Parcel in) {
+            return new LandmarkDetails(in);
+        }
+
+        @Override
+        public LandmarkDetails[] newArray(int size) {
+            return new LandmarkDetails[size];
+        }
+    };
+
 }

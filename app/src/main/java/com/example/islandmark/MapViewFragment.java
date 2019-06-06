@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 
@@ -32,6 +34,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
 
     private OnFragmentInteractionListener mListener;
     private GoogleMap map;
+    LandmarkDetails landmark;
 
     public MapViewFragment() {
         // Required empty public constructor
@@ -40,6 +43,10 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            landmark = bundle.getParcelable("LANDMARKOBJ");
+        }
         getActivity().setTitle("Map View");
     }
 
@@ -84,16 +91,24 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
         LatLng currentlocation = new LatLng(LandmarkDetails.currentlat, LandmarkDetails.currentlong);
         googleMap.addMarker(new MarkerOptions().position(currentlocation)
                 .title("Current Location"));
-        MainActivity main= (MainActivity)getActivity();
+        MainActivity main = (MainActivity) getActivity();
         List<LandmarkDetails> landmarkDetailsList = main.getList();
-        for (LandmarkDetails landmark: landmarkDetailsList){
+        for (LandmarkDetails landmarktemp : landmarkDetailsList) {
+            double longitude = landmarktemp.location.getLongitude();
+            double latitude = landmarktemp.location.getLatitude();
+            LatLng temp = new LatLng(latitude, longitude);
+            googleMap.addMarker(new MarkerOptions().position(temp)
+                    .title(landmarktemp.name));
+        }
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(currentlocation));
+        if(landmark == null) {
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentlocation, 13.0f));
+        } else {
             double longitude = landmark.location.getLongitude();
             double latitude = landmark.location.getLatitude();
             LatLng temp = new LatLng(latitude, longitude);
-            googleMap.addMarker(new MarkerOptions().position(temp)
-                    .title(landmark.name));
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(temp, 15.0f));
         }
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentlocation, 13.0f));
     }
 
     private void initializeMap() {
