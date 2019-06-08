@@ -3,17 +3,26 @@
 
     <item
         android:id="@+id/navigation_home"
+        android:icon="@drawable/home"
+        android:enabled="true"
         android:title="Home" />
+
 
     <item
         android:id="@+id/navigation_showlandmarks"
-        android:title="Search" />
+        android:title="Search"
+        android:enabled="true"
+        android:icon="@drawable/search"/>
 
     <item
         android:id="@+id/navigation_mapview"
-        android:title="Map" />
+        android:title="Map"
+        android:enabled="true"
+        android:icon="@drawable/place"/>
 
     <item
         android:id="@+id/navigation_account"
-        android:title="Account" />
+        android:title="Account"
+        android:enabled="true"
+        android:icon="@drawable/account"/>
 </menu>

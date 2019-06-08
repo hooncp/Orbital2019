@@ -47,7 +47,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
         if (bundle != null) {
             landmark = bundle.getParcelable("LANDMARKOBJ");
         }
-        getActivity().setTitle("Map View");
+        getActivity().setTitle("Map");
     }
 
     @Override
