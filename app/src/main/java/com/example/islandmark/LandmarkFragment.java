@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.islandmark.model.LandmarkDetails;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -51,15 +52,19 @@ public class LandmarkFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().setTitle("Landmarks");
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            landmarkDetailsList = bundle.getParcelableArrayList("LANDMARKLIST");
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_landmark, container, false);
-        MainActivity main = (MainActivity) getActivity();
-        landmarkDetailsList = main.getList();
+        final View view = inflater.inflate(R.layout.fragment_landmark, container, false);
+//        MainActivity main = (MainActivity) getActivity();
+//        landmarkDetailsList = main.getList();
         landmarkDetailsAdapter = new LandmarkDetailsAdapter(getContext(), landmarkDetailsList);
         listView = view.findViewById(R.id.landmark_details_list_view);
         listView.setAdapter(landmarkDetailsAdapter);
@@ -71,7 +76,6 @@ public class LandmarkFragment extends Fragment {
                 return a - b;
             }
         });
-        landmarkDetailsAdapter.notifyDataSetChanged();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -90,6 +94,8 @@ public class LandmarkFragment extends Fragment {
                         .commit();
             }
         });
+        TextView emptyText = (TextView)view.findViewById(android.R.id.empty);
+        listView.setEmptyView(emptyText);
         return view;
     }
 

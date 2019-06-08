@@ -44,7 +44,7 @@ public class LandmarkDetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_landmark_details, container, false);
+        View view = inflater.inflate(R.layout.fragment_landmark_details, container, false);
         locateBtn = view.findViewById(R.id.locateBtn);
         locateBtn.setOnClickListener(new View.OnClickListener() {
             @Override

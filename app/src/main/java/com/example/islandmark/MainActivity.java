@@ -37,19 +37,19 @@ public class MainActivity extends AppCompatActivity implements AccountFragment.O
         LandmarkFragment.OnFragmentInteractionListener, LandmarkDetailsFragment.OnFragmentInteractionListener{
 
     private FusedLocationProviderClient client;
-    private List<LandmarkDetails> landmarkDetailsList = new ArrayList<>();
+    private ArrayList<LandmarkDetails> landmarkDetailsList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        displaySelectedScreen(new HomeFragment());
-        requestPermission();
         client = LocationServices.getFusedLocationProviderClient(this);
+        requestPermission();
         checkLocation();
         loadDetailsData();
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -60,7 +60,10 @@ public class MainActivity extends AppCompatActivity implements AccountFragment.O
                         fragment = new HomeFragment();
                         break;
                     case R.id.navigation_showlandmarks:
+                        Bundle args = new Bundle();
+                        args.putParcelableArrayList("LANDMARKLIST", landmarkDetailsList);
                         fragment = new LandmarkFragment();
+                        fragment.setArguments(args);
                         break;
                     case R.id.navigation_mapview:
                         fragment = new MapViewFragment();
@@ -73,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements AccountFragment.O
                 return displaySelectedScreen(fragment);
             }
         });
-
+        displaySelectedScreen(new HomeFragment());
     }
 
     private void loadDetailsData() {
