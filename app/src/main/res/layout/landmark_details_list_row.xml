@@ -24,22 +24,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:text="Lorem ipsum dolor sit amet, per sonet doming commodo ad, qui et munere epicuri urbanitas. In mel primis alterum. No nemore suscipit dissentiunt vim. Mazim tation feugait sed an."
-        app:layout_constraintEnd_toStartOf="@+id/guideline3"
+        android:text="Lorem ipsum dolor sit amet, per sonet doming commodo ad"
         app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="@+id/guideline2"
         app:layout_constraintTop_toTopOf="@+id/name" />
-
-    <TextView
-        android:id="@+id/location"
-        android:layout_width="60dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:gravity="right"
-        android:text="distance"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/description" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline"
@@ -49,11 +37,12 @@
         app:layout_constraintGuide_percent="0.27" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/guideline3"
-        android:layout_width="0dp"
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.8" />
+        app:layout_constraintGuide_percent="0.93" />
+
 
 
 </android.support.constraint.ConstraintLayout>

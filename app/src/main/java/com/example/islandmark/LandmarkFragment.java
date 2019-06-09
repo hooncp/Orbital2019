@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -43,6 +44,7 @@ public class LandmarkFragment extends Fragment {
     private List<LandmarkDetails> landmarkDetailsList;
     private ListView listView;
     private LandmarkDetailsAdapter landmarkDetailsAdapter;
+    EditText editText;
 
     public LandmarkFragment() {
         // Required empty public constructor
@@ -63,8 +65,7 @@ public class LandmarkFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_landmark, container, false);
-//        MainActivity main = (MainActivity) getActivity();
-//        landmarkDetailsList = main.getList();
+        editText = view.findViewById(R.id.search_edit_text);
         landmarkDetailsAdapter = new LandmarkDetailsAdapter(getContext(), landmarkDetailsList);
         listView = view.findViewById(R.id.landmark_details_list_view);
         listView.setAdapter(landmarkDetailsAdapter);

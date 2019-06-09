@@ -29,11 +29,11 @@ public class LandmarkDetailsAdapter extends ArrayAdapter<LandmarkDetails> {
 
         TextView nameTV = rowView.findViewById(R.id.name);
         TextView descriptionTV = rowView.findViewById(R.id.description);
-        TextView locationTV = rowView.findViewById(R.id.location);
+//        TextView locationTV = rowView.findViewById(R.id.location);
 
         nameTV.setText(values.get(position).name);
         descriptionTV.setText(values.get(position).description);
-        locationTV.setText(values.get(position).distance +" m");
+//        locationTV.setText(values.get(position).distance +" m");
         return rowView;
     }
 
