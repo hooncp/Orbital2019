@@ -1,10 +1,14 @@
 package com.example.islandmark;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.content.res.ResourcesCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +19,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -89,8 +95,12 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
         LatLng currentlocation = new LatLng(LandmarkDetails.currentlat, LandmarkDetails.currentlong);
-        googleMap.addMarker(new MarkerOptions().position(currentlocation)
-                .title("Current Location"));
+        Drawable circleDrawable = ResourcesCompat.getDrawable(getResources(), R.drawable.current_location, null);
+        BitmapDescriptor markerIcon = getMarkerIconFromDrawable(circleDrawable);
+        googleMap.addMarker(new MarkerOptions()
+                .position(currentlocation)
+                .title("Current Location")
+                .icon(markerIcon));
         MainActivity main = (MainActivity) getActivity();
         List<LandmarkDetails> landmarkDetailsList = main.getList();
         for (LandmarkDetails landmarktemp : landmarkDetailsList) {
@@ -109,6 +119,15 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
             LatLng temp = new LatLng(latitude, longitude);
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(temp, 15.0f));
         }
+    }
+
+    private BitmapDescriptor getMarkerIconFromDrawable(Drawable drawable) {
+        Canvas canvas = new Canvas();
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        canvas.setBitmap(bitmap);
+        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+        drawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 
     private void initializeMap() {
