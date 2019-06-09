@@ -38,15 +38,6 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        Button startBtn = (Button) view.findViewById(R.id.startBtn);
-        startBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // need to check distance to every landmark and if within 10m show the landmark and then
-                // move to ar mode.
-                Snackbar.make(view, "moving to AR mode", Snackbar.LENGTH_LONG).show();
-            }
-        });
         return view;
     }
 

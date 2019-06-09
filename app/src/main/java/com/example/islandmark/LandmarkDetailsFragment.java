@@ -24,6 +24,7 @@ import com.example.islandmark.model.LandmarkDetails;
 public class LandmarkDetailsFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     Button locateBtn;
+    Button startBtn;
     LandmarkDetails landmark;
 
     public LandmarkDetailsFragment() {
@@ -58,6 +59,20 @@ public class LandmarkDetailsFragment extends Fragment {
                         .beginTransaction()
                         .replace(R.id.fragment_container, mapFragment)
                         .commit();
+            }
+        });
+        startBtn = view.findViewById(R.id.startBtn);
+        startBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainActivity activity = (MainActivity) getActivity();
+                activity.checkLocation();
+                if (landmark.getDistance() <= 10) {
+                    // can change to pop up instead.
+                    Snackbar.make(view, "moving to AR mode", Snackbar.LENGTH_LONG).show();
+                } else {
+                    Snackbar.make(view, "You are not there yet", Snackbar.LENGTH_LONG).show();
+                }
             }
         });
         return view;

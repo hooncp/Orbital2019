@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements AccountFragment.O
     }
 
     //lat and longitude of current location stored in LandmarkDetails model.
-    private void checkLocation(){
+    void checkLocation(){
         if (ActivityCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION) !=
                 PackageManager.PERMISSION_GRANTED){
         }
