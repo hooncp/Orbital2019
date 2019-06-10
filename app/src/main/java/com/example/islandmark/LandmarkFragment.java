@@ -8,6 +8,8 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +43,7 @@ import java.util.List;
 public class LandmarkFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
-    private List<LandmarkDetails> landmarkDetailsList;
+    private List<LandmarkDetails> landmarkDetailsList = new ArrayList<>();
     private ListView listView;
     private LandmarkDetailsAdapter landmarkDetailsAdapter;
     EditText editText;
@@ -54,10 +56,6 @@ public class LandmarkFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().setTitle("Landmarks");
-        Bundle bundle = this.getArguments();
-        if (bundle != null) {
-            landmarkDetailsList = bundle.getParcelableArrayList("LANDMARKLIST");
-        }
     }
 
     @Override
@@ -69,15 +67,6 @@ public class LandmarkFragment extends Fragment {
         landmarkDetailsAdapter = new LandmarkDetailsAdapter(getContext(), landmarkDetailsList);
         listView = view.findViewById(R.id.landmark_details_list_view);
         listView.setAdapter(landmarkDetailsAdapter);
-        landmarkDetailsAdapter.sort(new Comparator<LandmarkDetails>() {
-            @Override
-            public int compare(LandmarkDetails o1, LandmarkDetails o2) {
-                int a = o1.distance;
-                int b = o2.distance;
-                return a - b;
-            }
-        });
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, final View view,
@@ -95,9 +84,96 @@ public class LandmarkFragment extends Fragment {
                         .commit();
             }
         });
-        TextView emptyText = (TextView)view.findViewById(android.R.id.empty);
-        listView.setEmptyView(emptyText);
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                if (!s.toString().isEmpty()) {
+                    searchUserData(s.toString());
+                } else {
+                    loadLandmarkDetails();
+                }
+            }
+        });
+        loadLandmarkDetails();
+//        TextView e    mptyText = (TextView)view.findViewById(android.R.id.empty);
+//        listView.setEmptyView(emptyText);
         return view;
+    }
+
+    private void loadLandmarkDetails() {
+        FirebaseFirestore fs = FirebaseFirestore.getInstance();
+        fs.collection(LandmarkDetails.landmarkDetailsKey).orderBy(LandmarkDetails.nameKey).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                List<DocumentSnapshot> documents = task.getResult().getDocuments();
+
+                // clean up the list to prevent double copies
+                landmarkDetailsList.removeAll(landmarkDetailsList);
+
+                for (DocumentSnapshot document : documents) {
+
+                    if (document.contains(LandmarkDetails.descriptionKey) && document.contains(LandmarkDetails.locationKey)
+                            && document.contains(LandmarkDetails.nameKey)) {
+
+                        String description = (String) document.get(LandmarkDetails.descriptionKey);
+                        String name = (String) document.get(LandmarkDetails.nameKey);
+                        GeoPoint location = (GeoPoint) document.get(LandmarkDetails.locationKey);
+                        String documentID = (String) document.getId();
+                        LandmarkDetails details = new LandmarkDetails(description, name, location, documentID);
+                        landmarkDetailsList.add(details);
+                    }
+                }
+                landmarkDetailsAdapter.notifyDataSetChanged();
+                getView().findViewById(R.id.loadingPanel).setVisibility(View.GONE);
+            }
+        });
+    }
+
+    private void searchUserData(String filter) {
+
+
+        FirebaseFirestore fs = FirebaseFirestore.getInstance();
+
+
+        fs.collection(LandmarkDetails.landmarkDetailsKey).whereGreaterThan(LandmarkDetails.nameKey, filter)
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+
+                List<DocumentSnapshot> documents = task.getResult().getDocuments();
+
+                // clean up the list to prevent double copies
+                landmarkDetailsList.removeAll(landmarkDetailsList);
+
+                for (DocumentSnapshot document : documents) {
+
+                    if (document.contains(LandmarkDetails.descriptionKey) && document.contains(LandmarkDetails.locationKey)
+                            && document.contains(LandmarkDetails.nameKey)) {
+
+                        String description = (String) document.get(LandmarkDetails.descriptionKey);
+                        String name = (String) document.get(LandmarkDetails.nameKey);
+                        GeoPoint location = (GeoPoint) document.get(LandmarkDetails.locationKey);
+                        String documentID = (String) document.getId();
+                        LandmarkDetails details = new LandmarkDetails(description, name, location, documentID);
+                        landmarkDetailsList.add(details);
+                    }
+                }
+                landmarkDetailsAdapter.notifyDataSetChanged();
+                getView().findViewById(R.id.loadingPanel).setVisibility(View.GONE);
+            }
+        });
     }
 
 
