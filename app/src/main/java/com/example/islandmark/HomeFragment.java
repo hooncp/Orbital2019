@@ -128,7 +128,10 @@ public class HomeFragment extends Fragment {
                         String name = (String) document.get(LandmarkDetails.nameKey);
                         GeoPoint location = (GeoPoint)document.get(LandmarkDetails.locationKey);
                         String documentID = (String) document.getId();
-                        LandmarkDetails details = new LandmarkDetails(description, name, location,documentID);
+                        String timespent = (String)document.get(LandmarkDetails.timespentkey);
+                        String descriptionlong = (String) document.get(LandmarkDetails.descriptionlongKey);
+                        String type = (String) document.get(LandmarkDetails.typeKey);
+                        LandmarkDetails details = new LandmarkDetails(description, name, location,documentID,descriptionlong,timespent,type);
                         landmarkDetailsList.add(details);
                         count++;
                     }

@@ -60,7 +60,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =inflater.inflate(R.layout.fragment_map_view, container, false);
+        View view = inflater.inflate(R.layout.fragment_map_view, container, false);
         SupportMapFragment mapFrag = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFrag.getMapAsync(this);
         return view;
@@ -107,11 +107,24 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
             double longitude = landmarktemp.location.getLongitude();
             double latitude = landmarktemp.location.getLatitude();
             LatLng temp = new LatLng(latitude, longitude);
-            googleMap.addMarker(new MarkerOptions().position(temp)
-                    .title(landmarktemp.name));
+
+            if (landmarktemp.type.equals("Recreational")) {
+                Drawable recreaDrawable = ResourcesCompat.getDrawable(getResources(), R.drawable.recreational, null);
+                BitmapDescriptor markerIcon1 = getMarkerIconFromDrawable(recreaDrawable);
+                googleMap.addMarker(new MarkerOptions().position(temp)
+                        .title(landmarktemp.name).icon(markerIcon1));
+            } else if (landmarktemp.type.equals("Cultural")) {
+                Drawable recreaDrawable = ResourcesCompat.getDrawable(getResources(), R.drawable.cult, null);
+                BitmapDescriptor markerIcon1 = getMarkerIconFromDrawable(recreaDrawable);
+                googleMap.addMarker(new MarkerOptions().position(temp)
+                        .title(landmarktemp.name).icon(markerIcon1));
+            } else if (landmarktemp.type.equals("Historical")) {
+                googleMap.addMarker(new MarkerOptions().position(temp)
+                        .title(landmarktemp.name));
+            }
         }
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(currentlocation));
-        if(landmark == null) {
+        if (landmark == null) {
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentlocation, 13.0f));
         } else {
             double longitude = landmark.location.getLongitude();

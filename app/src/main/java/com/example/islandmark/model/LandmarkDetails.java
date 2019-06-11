@@ -8,23 +8,35 @@ import com.google.firebase.firestore.GeoPoint;
 public class LandmarkDetails implements Parcelable {
     public static final String landmarkDetailsKey = "landmarks"; //collection
     public static final String descriptionKey = "description"; //field
+    public static final String descriptionlongKey = "descriptionlong"; //field
     public static final String locationKey = "location"; //field
     public static final String nameKey = "name"; //field
+    public static final String timespentkey = "timespent";
+    public static final String typeKey = "type";
 
     public static double currentlat;
     public static double currentlong;
 
     public String description;
+    public String descriptionlong;
     public String name;
     public GeoPoint location;
+    public String timespent;
     private String documentID;
     public int distance;
+    public String type;
 
-    public LandmarkDetails (String description , String name, GeoPoint location, String documentID){
+    public LandmarkDetails (String description , String name, GeoPoint location,
+                            String documentID, String descriptionlong, String timespent,
+                            String type){
         this.description = description;
         this.name = name;
         this.location = location;
         this.documentID = documentID;
+        this.descriptionlong = descriptionlong;
+        this.timespent = timespent;
+        this.type = type;
+
     }
 
     public String getDocumentID() {
