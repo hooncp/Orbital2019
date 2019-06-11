@@ -29,6 +29,9 @@ public class LandmarkDetailsFragment extends Fragment {
     LandmarkDetails landmark;
     TextView tv4;
     TextView tv;
+    TextView tv3;
+    TextView tv2;
+    TextView tv5;
 
     public LandmarkDetailsFragment() {
         // Required empty public constructor
@@ -78,9 +81,16 @@ public class LandmarkDetailsFragment extends Fragment {
             }
         });
         tv4 = view.findViewById(R.id.textView4);
-        tv4.setText("Distance away: " + landmark.getDistance() + " m");
+        tv4.setText("Distance : " + landmark.getDistance() + " m away");
         tv = view.findViewById(R.id.textView);
         tv.setText(landmark.name);
+        tv3 = view.findViewById(R.id.textView3);
+        String test = landmark.descriptionlong.replaceAll("newline", "\n");
+        tv3.setText(test);
+        tv2 = view.findViewById(R.id.textView2);
+        tv2.setText("Type: " + landmark.type);
+        tv5 = view.findViewById(R.id.textView5);
+        tv5.setText("Duration: Roughly " + landmark.timespent + "hrs");
         return view;
     }
 
