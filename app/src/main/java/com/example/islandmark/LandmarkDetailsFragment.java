@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.islandmark.model.LandmarkDetails;
 
@@ -26,6 +27,8 @@ public class LandmarkDetailsFragment extends Fragment {
     Button locateBtn;
     Button startBtn;
     LandmarkDetails landmark;
+    TextView tv4;
+    TextView tv;
 
     public LandmarkDetailsFragment() {
         // Required empty public constructor
@@ -38,8 +41,7 @@ public class LandmarkDetailsFragment extends Fragment {
         if (bundle != null) {
             landmark = bundle.getParcelable("LANDMARKOBJ");
         }
-        getActivity().setTitle(landmark.getDocumentID());
-
+        getActivity().setTitle(landmark.name);
     }
 
     @Override
@@ -75,6 +77,10 @@ public class LandmarkDetailsFragment extends Fragment {
                 }
             }
         });
+        tv4 = view.findViewById(R.id.textView4);
+        tv4.setText("Distance away: " + landmark.getDistance() + " m");
+        tv = view.findViewById(R.id.textView);
+        tv.setText(landmark.name);
         return view;
     }
 

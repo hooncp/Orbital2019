@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import com.example.islandmark.model.LandmarkDetails;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -64,7 +65,7 @@ public class HomeFragment extends Fragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         loadRecommendedData();
         recyclerView.setLayoutManager(linearLayoutManager);
-        adapter = new HorizontalRecycleViewAdapter(landmarkDetailsList);
+        adapter = new HorizontalRecycleViewAdapter(landmarkDetailsList, getContext());
         recyclerView.setAdapter(adapter);
         return view;
     }
@@ -117,11 +118,11 @@ public class HomeFragment extends Fragment {
 
                 // clean up the list to prevent double copies
                 landmarkDetailsList.removeAll(landmarkDetailsList);
-
+                int count = 0;
                 for (DocumentSnapshot document : documents) {
 
                     if (document.contains(LandmarkDetails.descriptionKey) && document.contains(LandmarkDetails.locationKey)
-                            && document.contains(LandmarkDetails.nameKey)) {
+                            && document.contains(LandmarkDetails.nameKey)&& count < 5) {
 
                         String description = (String) document.get(LandmarkDetails.descriptionKey);
                         String name = (String) document.get(LandmarkDetails.nameKey);
@@ -129,6 +130,7 @@ public class HomeFragment extends Fragment {
                         String documentID = (String) document.getId();
                         LandmarkDetails details = new LandmarkDetails(description, name, location,documentID);
                         landmarkDetailsList.add(details);
+                        count++;
                     }
                 }
                 adapter.notifyDataSetChanged();
