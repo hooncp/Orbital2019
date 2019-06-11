@@ -1,5 +1,6 @@
 package com.example.islandmark;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,6 +15,7 @@ import com.google.ar.sceneform.ux.ArFragment;
 public class Ar_activity extends Fragment {
 
     private ArFragment arFragment;
+    private AccountFragment.OnFragmentInteractionListener mListener;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,5 +33,11 @@ public class Ar_activity extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_ar, container, false);
         return rootView;
+    }
+
+    public void onButtonPressed(Uri uri) {
+        if (mListener != null) {
+            mListener.onFragmentInteraction(uri);
+        }
     }
 }

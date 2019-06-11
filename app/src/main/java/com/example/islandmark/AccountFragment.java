@@ -8,6 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.firebase.ui.auth.AuthUI;
+import com.firebase.ui.auth.AuthUI.IdpConfig;
+
+import java.util.Arrays;
+import java.util.List;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,6 +26,9 @@ import android.view.ViewGroup;
 public class AccountFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+    private static final int MY_REQUEST_CODE = 7117; //any number will do
+
+    List<AuthUI.IdpConfig> providers;
 
     public AccountFragment() {
         // Required empty public constructor
@@ -29,7 +38,26 @@ public class AccountFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().setTitle("Account");
+
+        //init providers
+        providers = Arrays.asList(
+                new AuthUI.IdpConfig.EmailBuilder().build()
+                //add more login methods as you see fit
+                //e.g new AuthUI.IdpConfig.PhoneBuilder.build()
+        );
+
+        signInOptions();
     }
+
+    private void signInOptions() {
+        startActivityForResult(
+                AuthUI.getInstance().createSignInIntentBuilder()
+                .setAvailableProviders(providers)
+                .setTheme(R.style.LoginTheme)
+                .build(),MY_REQUEST_CODE
+        );
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
