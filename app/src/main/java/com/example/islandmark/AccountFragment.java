@@ -1,18 +1,30 @@
 package com.example.islandmark;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.AuthUI.IdpConfig;
+import com.firebase.ui.auth.IdpResponse;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Arrays;
 import java.util.List;
+
+import static android.app.Activity.RESULT_OK;
 
 
 /**
@@ -27,7 +39,7 @@ public class AccountFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private static final int MY_REQUEST_CODE = 7117; //any number will do
-
+    Button btn_sign_out;
     List<AuthUI.IdpConfig> providers;
 
     public AccountFragment() {
@@ -62,8 +74,54 @@ public class AccountFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_account,container,false);
+        btn_sign_out = (Button)view.findViewById(R.id.btn_signout);
+
+        btn_sign_out.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //logout
+                AuthUI.getInstance()
+                        .signOut(getContext())
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                btn_sign_out.setEnabled(false);
+                                signInOptions();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getContext(),""+e.getMessage(),Toast.LENGTH_SHORT);
+                    }
+                });
+            }
+        });
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_account, container, false);
+        return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==MY_REQUEST_CODE){
+            IdpResponse response = IdpResponse.fromResultIntent(data);
+            if(resultCode==RESULT_OK){
+
+                //get user
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                //show email on toast
+                Toast.makeText(getContext(),""+user.getEmail(),Toast.LENGTH_SHORT).show();
+
+                //set button signout
+                btn_sign_out.setEnabled(true);
+            }
+
+            else{
+                Toast.makeText(getContext(),""+response.getError().getMessage(),Toast.LENGTH_SHORT);
+            }
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event
