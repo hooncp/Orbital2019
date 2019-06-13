@@ -3,15 +3,22 @@ package com.example.islandmark;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.islandmark.model.LandmarkDetails;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 
 /**
@@ -32,6 +39,7 @@ public class LandmarkDetailsFragment extends Fragment {
     TextView tv3;
     TextView tv2;
     TextView tv5;
+    ImageView imageView;
 
     public LandmarkDetailsFragment() {
         // Required empty public constructor
@@ -50,7 +58,7 @@ public class LandmarkDetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_landmark_details, container, false);
+        final View view = inflater.inflate(R.layout.fragment_landmark_details, container, false);
         locateBtn = view.findViewById(R.id.locateBtn);
         locateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,6 +99,26 @@ public class LandmarkDetailsFragment extends Fragment {
         tv2.setText("Type: " + landmark.type);
         tv5 = view.findViewById(R.id.textView5);
         tv5.setText("Duration: Roughly " + landmark.timespent + "hrs");
+        imageView = view.findViewById(R.id.imageView);
+
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+        storageRef.child(landmark.getlinkURL()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.get()
+                        .load(uri.toString())
+                        .fit()
+                        .centerCrop()
+                        .into(imageView);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                Snackbar.make(view, exception.toString(), Snackbar.LENGTH_SHORT).show();
+            }
+        });
+
+
         return view;
     }
 

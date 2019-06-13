@@ -62,6 +62,11 @@ public class LandmarkDetails implements Parcelable {
         int finalvalue = ((int)Math.round(d/10)) * 10;
         return finalvalue;
     }
+    public String getlinkURL(){
+        String temp = "landmarks/";
+        temp = temp + documentID +"/Image1.jpg";
+        return temp;
+    }
 
     @Override
     public int describeContents() {
