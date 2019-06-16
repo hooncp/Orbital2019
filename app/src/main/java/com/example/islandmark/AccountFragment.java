@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +22,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+
 import java.util.Arrays;
 import java.util.List;
+
+import javax.annotation.Nullable;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -32,7 +38,7 @@ import static android.app.Activity.RESULT_OK;
  * Activities that contain this fragment must implement the
  * {@link AccountFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link AccountFragment#newInstance} factory method to
+ * Use the {@link AccountFragment newInstance} factory method to
  * create an instance of this fragment.
  */
 public class AccountFragment extends Fragment {
@@ -53,7 +59,10 @@ public class AccountFragment extends Fragment {
 
         //init providers
         providers = Arrays.asList(
-                new AuthUI.IdpConfig.EmailBuilder().build()
+                new AuthUI.IdpConfig.EmailBuilder().build(),
+                new AuthUI.IdpConfig.FacebookBuilder().build(),
+                //new AuthUI.IdpConfig.TwitterBuilder().build(),
+                new AuthUI.IdpConfig.GoogleBuilder().build()
                 //add more login methods as you see fit
                 //e.g new AuthUI.IdpConfig.PhoneBuilder.build()
         );
@@ -93,7 +102,7 @@ public class AccountFragment extends Fragment {
                         }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getContext(),""+e.getMessage(),Toast.LENGTH_SHORT);
+                        Toast.makeText(getContext(),""+e.getMessage(),Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -103,7 +112,7 @@ public class AccountFragment extends Fragment {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==MY_REQUEST_CODE){
             IdpResponse response = IdpResponse.fromResultIntent(data);
@@ -119,7 +128,7 @@ public class AccountFragment extends Fragment {
             }
 
             else{
-                Toast.makeText(getContext(),""+response.getError().getMessage(),Toast.LENGTH_SHORT);
+                Toast.makeText(getContext(),"Please log in to continue",Toast.LENGTH_SHORT).show();
             }
         }
     }

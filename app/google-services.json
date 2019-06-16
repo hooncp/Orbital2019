@@ -15,13 +15,21 @@
       },
       "oauth_client": [
         {
+          "client_id": "481059422742-jfn4u7650e4rl5qt3a80ctnnvh0itba3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.islandmark",
+            "certificate_hash": "2abef028fd14a79b1cb1c6d9c2bdd6f3996f68e4"
+          }
+        },
+        {
           "client_id": "481059422742-54br7nakc939ini2j9j40bd53fsve681.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDVS4bQG3eHlF0YdMPjRfxVa7JnBH8ViZY"
+          "current_key": "AIzaSyBva3FdqYl3nzaF4KPYN4k6_9j9rmOcIgc"
         }
       ],
       "services": {
