@@ -14,6 +14,7 @@ import com.google.ar.sceneform.ux.ArFragment;
 
 public class Ar_fragment extends Fragment {
 
+
     private ArFragment arFragment;
     private AccountFragment.OnFragmentInteractionListener mListener;
 
