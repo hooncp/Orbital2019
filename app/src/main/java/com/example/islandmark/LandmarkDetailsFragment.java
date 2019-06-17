@@ -86,7 +86,7 @@ public class LandmarkDetailsFragment extends Fragment {
                     Snackbar.make(view, "moving to AR mode", Snackbar.LENGTH_LONG).show();
                     //TODO: Start AR activity
                     // Create new fragment and transaction
-                    Fragment newFragment = new Ar_activity();
+                    Fragment newFragment = new Ar_fragment();
                     getFragmentManager()
                             .beginTransaction()
                             .replace(R.id.fragment_container,newFragment)
