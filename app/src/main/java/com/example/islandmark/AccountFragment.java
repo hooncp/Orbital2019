@@ -2,19 +2,23 @@ package com.example.islandmark;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.facebook.FacebookCallback;
+import com.facebook.login.LoginResult;
 import com.firebase.ui.auth.AuthUI;
-import com.firebase.ui.auth.AuthUI.IdpConfig;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -22,8 +26,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
+import com.google.firebase.auth.UserInfo;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,6 +34,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import static android.app.Activity.RESULT_OK;
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 
 /**
@@ -47,6 +51,7 @@ public class AccountFragment extends Fragment {
     private static final int MY_REQUEST_CODE = 7117; //any number will do
     Button btn_sign_out;
     List<AuthUI.IdpConfig> providers;
+    private FacebookCallback<LoginResult> callback;
 
     public AccountFragment() {
         // Required empty public constructor
@@ -87,6 +92,8 @@ public class AccountFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_account,container,false);
         btn_sign_out = (Button)view.findViewById(R.id.btn_signout);
 
+        getProviderData();
+
         btn_sign_out.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,6 +118,25 @@ public class AccountFragment extends Fragment {
         return view;
     }
 
+    public void getProviderData() {
+        // [START get_provider_data]
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            for (UserInfo profile : user.getProviderData()) {
+                // Id of the provider (ex: google.com)
+                String providerId = profile.getProviderId();
+
+                // UID specific to the provider
+                String uid = profile.getUid();
+
+                // Name, email address, and profile photo Url
+                String name = profile.getDisplayName();
+                String email = profile.getEmail();
+                Uri photoUrl = profile.getPhotoUrl();
+            }
+        }
+        // [END get_provider_data]
+    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +27,7 @@ import com.squareup.picasso.Picasso;
  * Activities that contain this fragment must implement the
  * {@link LandmarkDetailsFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link LandmarkDetailsFragment#newInstance} factory method to
+ * Use the {@link LandmarkDetailsFragment newInstance} factory method to
  * create an instance of this fragment.
  */
 public class LandmarkDetailsFragment extends Fragment {
@@ -83,6 +84,14 @@ public class LandmarkDetailsFragment extends Fragment {
                 if (landmark.getDistance() <= 10) {
                     // can change to pop up instead.
                     Snackbar.make(view, "moving to AR mode", Snackbar.LENGTH_LONG).show();
+                    //TODO: Start AR activity
+                    // Create new fragment and transaction
+                    Fragment newFragment = new Ar_activity();
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragment_container,newFragment)
+                            .commit();
+
                 } else {
                     Snackbar.make(view, "You are not there yet", Snackbar.LENGTH_LONG).show();
                 }
