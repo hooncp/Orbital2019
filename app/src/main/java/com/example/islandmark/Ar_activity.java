@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,7 +22,7 @@ import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.BaseArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
 
-public class Ar_fragment extends Fragment implements View.OnClickListener {
+public class Ar_activity extends AppCompatActivity implements View.OnClickListener {
 
     private ArFragment arFragment;
     private ModelRenderable volcanoRenderable;
@@ -38,16 +39,12 @@ public class Ar_fragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        arFragment = (ArFragment) getFragmentManager().findFragmentById(R.id.sceneform_fragment);
-    }
+        setContentView(R.layout.sceneform_ux_fragment_layout);
+        arFragment = (ArFragment)getSupportFragmentManager().findFragmentById(R.id.sceneform_fragment);
+        volcano = (ImageView)findViewById(R.id.volcano);
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_ar, container, false);
-
-        volcano = (ImageView) rootView.findViewById(R.id.volcano);
         setArrayView();
+
         setClickListener();
 
         setUpModel();
@@ -59,15 +56,15 @@ public class Ar_fragment extends Fragment implements View.OnClickListener {
                 AnchorNode anchorNode = new AnchorNode(anchor);
                 anchorNode.setParent(arFragment.getArSceneView().getScene());
 
-                createModel(anchorNode,selected);
+                createModel(anchorNode, selected);
             }
         });
-        return rootView;
     }
+
 
     private void setUpModel() {
         ModelRenderable.builder()
-                .setSource(getActivity(),R.raw.volcano)
+                .setSource(this, R.raw.volcano)
                 .build();
     }
 
