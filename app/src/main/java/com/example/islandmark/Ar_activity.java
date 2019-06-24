@@ -11,6 +11,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.ar.core.Anchor;
 import com.google.ar.core.HitResult;
@@ -26,7 +27,6 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
 
     private ArFragment arFragment;
     private ModelRenderable volcanoRenderable;
-    private AccountFragment.OnFragmentInteractionListener mListener;
 
     ImageView volcano;
 
@@ -34,14 +34,14 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
     View arrayView[];
     ViewRenderable name_object;
 
-    int selected = 1 ;
+    int selected = 1;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sceneform_ux_fragment_layout);
+        setContentView(R.layout.fragment_ar);
         arFragment = (ArFragment)getSupportFragmentManager().findFragmentById(R.id.sceneform_fragment);
-        volcano = (ImageView)findViewById(R.id.volcano);
+        volcano = findViewById(R.id.volcano);
 
         setArrayView();
 
@@ -65,7 +65,13 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
     private void setUpModel() {
         ModelRenderable.builder()
                 .setSource(this, R.raw.volcano)
-                .build();
+                .build().thenAccept(renderable -> volcanoRenderable = renderable)
+                .exceptionally(
+                        throwable -> {
+                            Toast.makeText(this, "Unable to load model", Toast.LENGTH_LONG).show();
+                            return null;
+                        }
+                );
     }
 
     private void createModel(AnchorNode anchorNode, int selected) {
@@ -90,11 +96,11 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
         };
     }
 
-    public void onButtonPressed(Uri uri) {
+/*    public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
-    }
+    }*/
 
     @Override
     public void onClick(View v) {
