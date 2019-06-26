@@ -47,12 +47,69 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.google.firebase:firebase-storage:17.0.0'
     implementation 'com.facebook.android:facebook-android-sdk:5.0.1'
+    implementation 'com.google.code.findbugs:jsr305:3.0.2'
 }
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.ar.sceneform.plugin'
 
 
-sceneform.asset('SampleData/volcano.obj',
+
+sceneform.asset('SampleData/bear.fbx',
         'default',
-        'SampleData/volcano.sfa',
-        'src/main/res/raw/volcano')
+        'SampleData/bear.sfa',
+        'src/main/res/raw/bear')
+
+sceneform.asset('SampleData/cat.fbx',
+        'default',
+        'SampleData/cat.sfa',
+        'src/main/res/raw/cat')
+
+sceneform.asset('SampleData/cow.fbx',
+        'default',
+        'SampleData/cow.sfa',
+        'src/main/res/raw/cow')
+
+sceneform.asset('SampleData/dog.fbx',
+        'default',
+        'SampleData/dog.sfa',
+        'src/main/res/raw/dog')
+
+sceneform.asset('SampleData/elephant.fbx',
+        'default',
+        'SampleData/elephant.sfa',
+        'src/main/res/raw/elephant')
+
+sceneform.asset('SampleData/ferret.fbx',
+        'default',
+        'SampleData/ferret.sfa',
+        'src/main/res/raw/ferret')
+
+sceneform.asset('SampleData/hippopotamus.fbx',
+        'default',
+        'SampleData/hippopotamus.sfa',
+        'src/main/res/raw/hippopotamus')
+
+sceneform.asset('SampleData/horse.fbx',
+        'default',
+        'SampleData/horse.sfa',
+        'src/main/res/raw/horse')
+
+sceneform.asset('SampleData/koala_bear.fbx',
+        'default',
+        'SampleData/koala_bear.sfa',
+        'src/main/res/raw/koala_bear')
+
+sceneform.asset('SampleData/lion.fbx',
+        'default',
+        'SampleData/lion.sfa',
+        'src/main/res/raw/lion')
+
+sceneform.asset('SampleData/reindeer.fbx',
+        'default',
+        'SampleData/reindeer.sfa',
+        'src/main/res/raw/reindeer')
+
+sceneform.asset('SampleData/wolverine.fbx',
+        'default',
+        'SampleData/wolverine.sfa',
+        'src/main/res/raw/wolverine')
