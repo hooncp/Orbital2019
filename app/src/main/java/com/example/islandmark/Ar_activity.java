@@ -26,6 +26,7 @@ import com.google.ar.core.Plane;
 import com.google.ar.core.Trackable;
 import com.google.ar.core.TrackingState;
 import com.google.ar.sceneform.*;
+import com.google.ar.sceneform.math.Vector3;
 import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.rendering.ViewRenderable;
 import com.google.ar.sceneform.ux.ArFragment;
@@ -308,7 +309,6 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
             TransformableNode bear = new TransformableNode(arFragment.getTransformationSystem());
 
 
-
             bear.setParent(anchorNode);
             bear.setRenderable(bearRenderable);
             bear.select();
@@ -317,7 +317,6 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
 
         if(selected == 2){
             TransformableNode cat = new TransformableNode(arFragment.getTransformationSystem());
-
 
 
             cat.setParent(anchorNode);
@@ -329,7 +328,6 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
             TransformableNode cow = new TransformableNode(arFragment.getTransformationSystem());
 
 
-
             cow.setParent(anchorNode);
             cow.setRenderable(cowRenderable);
             cow.select();
@@ -339,7 +337,6 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
             TransformableNode dog = new TransformableNode(arFragment.getTransformationSystem());
 
 
-
             dog.setParent(anchorNode);
             dog.setRenderable(dogRenderable);
             dog.select();
@@ -347,7 +344,6 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
 
         if(selected == 5){
             TransformableNode elephant = new TransformableNode(arFragment.getTransformationSystem());
-
 
 
             elephant.setParent(anchorNode);
@@ -368,7 +364,6 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
             TransformableNode hippopotamus = new TransformableNode(arFragment.getTransformationSystem());
 
 
-
             hippopotamus.setParent(anchorNode);
             hippopotamus.setRenderable(hippopotamusRenderable);
             hippopotamus.select();
@@ -376,7 +371,6 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
 
         if(selected == 8){
             TransformableNode horse = new TransformableNode(arFragment.getTransformationSystem());
-
 
 
             horse.setParent(anchorNode);
@@ -388,7 +382,6 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
             TransformableNode koala_bear = new TransformableNode(arFragment.getTransformationSystem());
 
 
-
             koala_bear.setParent(anchorNode);
             koala_bear.setRenderable(koalaRenderable);
             koala_bear.select();
@@ -396,7 +389,6 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
 
         if(selected == 10){
             TransformableNode lion = new TransformableNode(arFragment.getTransformationSystem());
-
 
 
             lion.setParent(anchorNode);
@@ -408,7 +400,6 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
             TransformableNode reindeer = new TransformableNode(arFragment.getTransformationSystem());
 
 
-
             reindeer.setParent(anchorNode);
             reindeer.setRenderable(reindeerRenderable);
             reindeer.select();
@@ -416,7 +407,6 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
 
         if(selected == 12){
             TransformableNode wolverine = new TransformableNode(arFragment.getTransformationSystem());
-
 
 
             wolverine.setParent(anchorNode);
