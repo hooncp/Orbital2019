@@ -4,25 +4,25 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.ar.core.Anchor;
+import com.google.ar.core.Frame;
 import com.google.ar.core.HitResult;
 import com.google.ar.core.Plane;
+import com.google.ar.core.Trackable;
+import com.google.ar.core.TrackingState;
 import com.google.ar.sceneform.*;
 import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.rendering.ViewRenderable;
 import com.google.ar.sceneform.ux.ArFragment;
-import com.google.ar.sceneform.ux.BaseArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
+
+import java.util.List;
 
 public class Ar_activity extends AppCompatActivity implements View.OnClickListener {
 
@@ -47,6 +47,10 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
     ViewRenderable name_object;
 
     int selected = 1;
+
+    private PointerDrawable pointer = new PointerDrawable();
+    private boolean isTracking;
+    private boolean isHitting;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,6 +83,65 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
 
             createModel(anchorNode, selected);
         });
+
+        arFragment.getArSceneView().getScene().addOnUpdateListener(frameTime -> {
+            arFragment.onUpdate(frameTime);
+            onUpdate();
+        });
+    }
+
+    private void onUpdate() {
+        boolean trackingChanged = updateTracking();
+        View contentView = findViewById(android.R.id.content);
+        if (trackingChanged) {
+            if (isTracking) {
+                contentView.getOverlay().add(pointer);
+            } else {
+                contentView.getOverlay().remove(pointer);
+            }
+            contentView.invalidate();
+        }
+
+        if (isTracking) {
+            boolean hitTestChanged = updateHitTest();
+            if (hitTestChanged) {
+                pointer.setEnabled(isHitting);
+                contentView.invalidate();
+            }
+        }
+    }
+
+    private boolean updateTracking() {
+        Frame frame = arFragment.getArSceneView().getArFrame();
+        boolean wasTracking = isTracking;
+        isTracking = frame != null &&
+                frame.getCamera().getTrackingState() == TrackingState.TRACKING;
+        return isTracking != wasTracking;
+    }
+
+    private boolean updateHitTest() {
+        Frame frame = arFragment.getArSceneView().getArFrame();
+        android.graphics.Point pt = getScreenCenter();
+        List<HitResult> hits;
+        boolean wasHitting = isHitting;
+        isHitting = false;
+        if (frame != null) {
+            hits = frame.hitTest(pt.x, pt.y);
+            for (HitResult hit : hits) {
+                Trackable trackable = hit.getTrackable();
+                if (trackable instanceof Plane &&
+                        ((Plane) trackable).isPoseInPolygon(hit.getHitPose())) {
+                    isHitting = true;
+                    break;
+                }
+            }
+        }
+        return wasHitting != isHitting;
+    }
+
+    private android.graphics.Point getScreenCenter() {
+        View vw = findViewById(android.R.id.content);
+        return new android.graphics.Point(vw.getWidth()/2, vw.getHeight()/2);
     }
 
 
@@ -366,7 +429,43 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
     }*/
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View view) {
+        if(view.getId() == R.id.bear){
+            selected = 1;
+        }
+        else if(view.getId() == R.id.cat){
+            selected =2;
+        }
+        else if(view.getId() == R.id.cow){
+            selected =3;
+        }
+        else if(view.getId() == R.id.dog){
+            selected =4;
+        }
+        else if(view.getId() == R.id.elephant){
+            selected =5;
+        }
+        else if(view.getId() == R.id.ferret){
+            selected =6;
+        }
+        else if(view.getId() == R.id.hippopotamus){
+            selected =7;
+        }
+        else if(view.getId() == R.id.horse){
+            selected =8;
+        }
+        else if(view.getId() == R.id.koalabear){
+            selected =9;
+        }
+        else if(view.getId() == R.id.lion){
+            selected =10;
+        }
+        else if(view.getId() == R.id.reindeer){
+            selected =11;
+        }
+        else if(view.getId() == R.id.wolverine){
+            selected =12;
+        }
 
     }
 }
