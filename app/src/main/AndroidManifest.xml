@@ -3,7 +3,7 @@
     package="com.example.islandmark">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.CAMERA" /> <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-feature android:name="android.hardware.camera.ar" android:required="true"/>
     <uses-permission android:name="android.permission.INTERNET"/>
 
@@ -16,6 +16,15 @@
         android:roundIcon="@mipmap/ic_launcher_1_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.ar.codelab.name.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/paths"/>
+        </provider>
         <activity
             android:name=".SlidingActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -26,8 +35,9 @@
         <meta-data
             android:name="com.google.ar.core"
             android:value="required" />
-        <meta-data android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_application_id"/>
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_application_id" />
 
         <activity android:name="com.facebook.FacebookActivity"
             android:configChanges=
