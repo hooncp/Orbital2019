@@ -76,6 +76,7 @@ public class LandmarkDetailsFragment extends Fragment {
 
                 getFragmentManager()
                         .beginTransaction()
+                        .addToBackStack(null)
                         .replace(R.id.fragment_container, mapFragment)
                         .commit();
             }
