@@ -307,7 +307,9 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
     private void createModel(AnchorNode anchorNode, int selected) {
         if(selected == 1){
             TransformableNode bear = new TransformableNode(arFragment.getTransformationSystem());
-
+            bear.getScaleController().setMaxScale(10.0f);
+            bear.getScaleController().setMinScale(0.01f);
+            bear.setLocalScale(new Vector3(10f,10f,10f));
 
             bear.setParent(anchorNode);
             bear.setRenderable(bearRenderable);
@@ -317,7 +319,9 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
 
         if(selected == 2){
             TransformableNode cat = new TransformableNode(arFragment.getTransformationSystem());
-
+            cat.getScaleController().setMaxScale(10.0f);
+            cat.getScaleController().setMinScale(0.01f);
+            cat.setLocalScale(new Vector3(10f,10f,10f));
 
             cat.setParent(anchorNode);
             cat.setRenderable(catRenderable);
@@ -326,6 +330,9 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
 
         if(selected == 3){
             TransformableNode cow = new TransformableNode(arFragment.getTransformationSystem());
+            cow.getScaleController().setMaxScale(10.0f);
+            cow.getScaleController().setMinScale(0.01f);
+            cow.setLocalScale(new Vector3(10f,10f,10f));
 
 
             cow.setParent(anchorNode);
@@ -335,7 +342,9 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
 
         if(selected == 4){
             TransformableNode dog = new TransformableNode(arFragment.getTransformationSystem());
-
+            dog.getScaleController().setMaxScale(10.0f);
+            dog.getScaleController().setMinScale(0.01f);
+            dog.setLocalScale(new Vector3(10f,10f,10f));
 
             dog.setParent(anchorNode);
             dog.setRenderable(dogRenderable);
@@ -344,7 +353,9 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
 
         if(selected == 5){
             TransformableNode elephant = new TransformableNode(arFragment.getTransformationSystem());
-
+            elephant.getScaleController().setMaxScale(10.0f);
+            elephant.getScaleController().setMinScale(0.01f);
+            elephant.setLocalScale(new Vector3(10f,10f,10f));
 
             elephant.setParent(anchorNode);
             elephant.setRenderable(elephantRenderable);
@@ -353,7 +364,9 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
 
         if(selected == 6){
             TransformableNode ferret = new TransformableNode(arFragment.getTransformationSystem());
-
+            ferret.getScaleController().setMaxScale(10.0f);
+            ferret.getScaleController().setMinScale(0.01f);
+            ferret.setLocalScale(new Vector3(10f,10f,10f));
 
             ferret.setParent(anchorNode);
             ferret.setRenderable(ferretRenderable);
@@ -362,7 +375,9 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
 
         if(selected == 7){
             TransformableNode hippopotamus = new TransformableNode(arFragment.getTransformationSystem());
-
+            hippopotamus.getScaleController().setMaxScale(10.0f);
+            hippopotamus.getScaleController().setMinScale(0.01f);
+            hippopotamus.setLocalScale(new Vector3(10f,10f,10f));
 
             hippopotamus.setParent(anchorNode);
             hippopotamus.setRenderable(hippopotamusRenderable);
@@ -371,7 +386,9 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
 
         if(selected == 8){
             TransformableNode horse = new TransformableNode(arFragment.getTransformationSystem());
-
+            horse.getScaleController().setMaxScale(10.0f);
+            horse.getScaleController().setMinScale(0.01f);
+            horse.setLocalScale(new Vector3(10f,10f,10f));
 
             horse.setParent(anchorNode);
             horse.setRenderable(horseRenderable);
@@ -380,7 +397,9 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
 
         if(selected == 9){
             TransformableNode koala_bear = new TransformableNode(arFragment.getTransformationSystem());
-
+            koala_bear.getScaleController().setMaxScale(10.0f);
+            koala_bear.getScaleController().setMinScale(0.01f);
+            koala_bear.setLocalScale(new Vector3(10f,10f,10f));
 
             koala_bear.setParent(anchorNode);
             koala_bear.setRenderable(koalaRenderable);
@@ -389,7 +408,9 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
 
         if(selected == 10){
             TransformableNode lion = new TransformableNode(arFragment.getTransformationSystem());
-
+            lion.getScaleController().setMaxScale(10.0f);
+            lion.getScaleController().setMinScale(0.01f);
+            lion.setLocalScale(new Vector3(10f,10f,10f));
 
             lion.setParent(anchorNode);
             lion.setRenderable(lionRenderable);
@@ -398,7 +419,9 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
 
         if(selected == 11){
             TransformableNode reindeer = new TransformableNode(arFragment.getTransformationSystem());
-
+            reindeer.getScaleController().setMaxScale(10.0f);
+            reindeer.getScaleController().setMinScale(0.01f);
+            reindeer.setLocalScale(new Vector3(10f,10f,10f));
 
             reindeer.setParent(anchorNode);
             reindeer.setRenderable(reindeerRenderable);
@@ -407,7 +430,9 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
 
         if(selected == 12){
             TransformableNode wolverine = new TransformableNode(arFragment.getTransformationSystem());
-
+            wolverine.getScaleController().setMaxScale(10.0f);
+            wolverine.getScaleController().setMinScale(0.01f);
+            wolverine.setLocalScale(new Vector3(10f,10f,10f));
 
             wolverine.setParent(anchorNode);
             wolverine.setRenderable(wolverineRenderable);
