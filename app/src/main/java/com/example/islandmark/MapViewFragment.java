@@ -56,6 +56,11 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
         getActivity().setTitle("Map");
     }
 
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle("Map");
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

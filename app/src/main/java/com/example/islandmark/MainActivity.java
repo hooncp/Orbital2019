@@ -141,6 +141,7 @@ public class MainActivity extends AppCompatActivity implements AccountFragment.O
         if (fragment != null) {
             getSupportFragmentManager()
                     .beginTransaction()
+                    .addToBackStack(null)
                     .replace(R.id.fragment_container, fragment)
                     .commit();
             return true;

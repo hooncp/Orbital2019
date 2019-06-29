@@ -58,6 +58,11 @@ public class LandmarkFragment extends Fragment {
         getActivity().setTitle("Landmarks");
     }
 
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle("Landmarks");
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -80,6 +85,7 @@ public class LandmarkFragment extends Fragment {
 
                 getFragmentManager()
                         .beginTransaction()
+                        .addToBackStack(null)
                         .replace(R.id.fragment_container, newFragment)
                         .commit();
             }

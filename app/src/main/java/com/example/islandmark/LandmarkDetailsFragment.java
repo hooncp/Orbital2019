@@ -56,6 +56,11 @@ public class LandmarkDetailsFragment extends Fragment {
         getActivity().setTitle(landmark.name);
     }
 
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle(landmark.name);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
