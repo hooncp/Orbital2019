@@ -56,6 +56,7 @@ public class HorizontalRecycleViewAdapter extends RecyclerView.Adapter<Horizonta
                 ((AppCompatActivity)context).getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragment_container, newFragment)
+                        .addToBackStack(null)
                         .commit();
 
             }
