@@ -46,13 +46,13 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle("Home Screen");
+        getActivity().setTitle(getString(R.string.Home_Screen));
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().setTitle("Home Screen");
+        getActivity().setTitle(getString(R.string.Home_Screen));
     }
 
     @Override

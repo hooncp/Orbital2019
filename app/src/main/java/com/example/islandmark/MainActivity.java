@@ -1,6 +1,11 @@
 package com.example.islandmark;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,8 +13,10 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -20,15 +27,14 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.ar.sceneform.ux.ArFragment;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
@@ -39,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements AccountFragment.O
 
     private FusedLocationProviderClient client;
     private ArrayList<LandmarkDetails> landmarkDetailsList = new ArrayList<>();
+    public static String language = "English";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements AccountFragment.O
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            changeLanguage();
         }
 
         return super.onOptionsItemSelected(item);
@@ -175,5 +182,37 @@ public class MainActivity extends AppCompatActivity implements AccountFragment.O
     @Override
     public void onFragmentInteraction(Uri uri){
         //you can leave it empty
+    }
+
+    private void changeLanguage() {
+        final String[] langList = {"English", "中文"};
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
+        mBuilder.setTitle("Change Language... ");
+        AlertDialog.Builder builder = mBuilder.setSingleChoiceItems(langList, -1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (which == 0) {
+                    setLocale("en");
+                } else if (which == 1) {
+                    setLocale("zh");
+                }
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog mDialog = mBuilder.create();
+        mDialog.show();
+    }
+
+    public void setLocale(String lang) {
+        Locale myLocale = new Locale(lang);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.setLocale(myLocale);
+        res.updateConfiguration(conf, dm);
+        Intent refresh = new Intent(MainActivity.this, MainActivity.class);
+        startActivity(refresh);
+        finish();
     }
 }
