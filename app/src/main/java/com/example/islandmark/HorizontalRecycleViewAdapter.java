@@ -42,7 +42,13 @@ public class HorizontalRecycleViewAdapter extends RecyclerView.Adapter<Horizonta
     @Override
     public void onBindViewHolder(@NonNull final CardViewHolder cardViewHolder, final int i) {
         LandmarkDetails temp = landmarkDetailsList.get(i);
-        cardViewHolder.tempTitle.setText(temp.name + " ");
+        String name;
+        if (MainActivity.language.equals("en")){
+            name = temp.name;
+        } else {
+            name = temp.namezh;
+        }
+        cardViewHolder.tempTitle.setText(name);
         cardViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

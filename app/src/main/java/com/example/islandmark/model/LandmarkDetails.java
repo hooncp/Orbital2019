@@ -25,6 +25,7 @@ public class LandmarkDetails implements Parcelable {
     private String documentID;
     public int distance;
     public String type;
+    public String namezh;
 
     public LandmarkDetails (String description , String name, GeoPoint location,
                             String documentID, String descriptionlong, String timespent,
@@ -36,6 +37,19 @@ public class LandmarkDetails implements Parcelable {
         this.descriptionlong = descriptionlong;
         this.timespent = timespent;
         this.type = type;
+
+    }
+    public LandmarkDetails (String description , String name, GeoPoint location,
+                            String documentID, String descriptionlong, String timespent,
+                            String type, String namezh){
+        this.description = description;
+        this.name = name;
+        this.location = location;
+        this.documentID = documentID;
+        this.descriptionlong = descriptionlong;
+        this.timespent = timespent;
+        this.type = type;
+        this.namezh = namezh;
 
     }
 

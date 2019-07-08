@@ -137,7 +137,8 @@ public class HomeFragment extends Fragment {
                         String timespent = (String)document.get(LandmarkDetails.timespentkey);
                         String descriptionlong = (String) document.get(LandmarkDetails.descriptionlongKey);
                         String type = (String) document.get(LandmarkDetails.typeKey);
-                        LandmarkDetails details = new LandmarkDetails(description, name, location,documentID,descriptionlong,timespent,type);
+                        String namezh = (String) document.get("namezh");
+                        LandmarkDetails details = new LandmarkDetails(description, name, location,documentID,descriptionlong,timespent,type,namezh);
                         landmarkDetailsList.add(details);
                         count++;
                     }

@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements AccountFragment.O
 
     private FusedLocationProviderClient client;
     private ArrayList<LandmarkDetails> landmarkDetailsList = new ArrayList<>();
-    public static String language = "English";
+    public static String language = "en";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,8 +192,10 @@ public class MainActivity extends AppCompatActivity implements AccountFragment.O
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (which == 0) {
+                    language = "en";
                     setLocale("en");
                 } else if (which == 1) {
+                    language = "zh";
                     setLocale("zh");
                 }
                 dialog.dismiss();
