@@ -7,9 +7,9 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.content.res.ResourcesCompat;
-import android.util.Log;
+import androidx.fragment.app.Fragment;
+import androidx.core.content.res.ResourcesCompat;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +23,6 @@ import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 

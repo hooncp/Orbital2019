@@ -1,6 +1,5 @@
 package com.example.islandmark;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -9,16 +8,17 @@ import android.content.res.Resources;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.NonNull;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 
 import com.example.islandmark.model.LandmarkDetails;
@@ -27,6 +27,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
@@ -45,12 +46,14 @@ public class MainActivity extends AppCompatActivity implements AccountFragment.O
 
     private FusedLocationProviderClient client;
     private ArrayList<LandmarkDetails> landmarkDetailsList = new ArrayList<>();
+    private FirebaseAuth mAuth;
     public static String language = "en";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mAuth = FirebaseAuth.getInstance();
         client = LocationServices.getFusedLocationProviderClient(this);
         requestPermission();
         checkLocation();
@@ -171,10 +174,27 @@ public class MainActivity extends AppCompatActivity implements AccountFragment.O
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            changeLanguage();
+        switch (id)
+        {
+            case R.id.action_settings:
+                changeLanguage();
+                break;
+
+            case R.id.logout:
+                logout();
+                break;
+
+            case R.id.profile:
+                Intent mainIntent = new Intent(MainActivity.this, SetupActivity.class);
+                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(mainIntent);
+                break;
         }
+
+        //noinspection SimplifiableIfStatement
+/*        if (id == R.id.action_settings) {
+            changeLanguage();
+        }*/
 
         return super.onOptionsItemSelected(item);
     }
@@ -182,6 +202,11 @@ public class MainActivity extends AppCompatActivity implements AccountFragment.O
     @Override
     public void onFragmentInteraction(Uri uri){
         //you can leave it empty
+    }
+
+    private void logout(){
+        mAuth.signOut();
+        Toast.makeText(MainActivity.this, "Logout successful!",Toast.LENGTH_LONG).show();
     }
 
     private void changeLanguage() {

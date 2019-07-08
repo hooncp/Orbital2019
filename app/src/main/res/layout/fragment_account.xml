@@ -3,15 +3,108 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AccountFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/baseColor"
+    tools:context="com.example.islandmark.AccountFragment">
+
+    <ImageView
+        android:id="@+id/loginIcon"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        app:srcCompat="@drawable/testlogo" />
+
+    <EditText
+        android:id="@+id/loginEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/loginIcon"
+        android:layout_marginTop="15dp"
+        android:hint="Email"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        android:background="@drawable/inputs"
+        android:padding="10dp"
+        />
+
+    <EditText
+        android:id="@+id/loginPass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/loginEmail"
+        android:layout_marginTop="15dp"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:background="@drawable/inputs"
+        android:padding="10dp"/>
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/loginPass"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button"
+        android:padding="15dp"
+        android:text="Login"
+        android:textColor="#FFFFFF" />
+
+    <Button
+        android:id="@+id/newAccButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/loginButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button"
+        android:padding="10dp"
+        android:text="Create new account"
+        android:textColor="#FFFFFF" />
+    <TextView
+        android:id="@+id/loginText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/newAccButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="Or login with..."
+        android:textAlignment="center"
+        android:textSize="16sp"
+        android:textStyle="bold"/>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/loginText">
+
+        <ImageView
+            android:id="@+id/facebook_Signin"
+            android:layout_width="80dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="100dp"
+            android:src="@drawable/com_facebook_button_icon_blue" />
+
+        <ImageView
+            android:id="@+id/google_Signin"
+            android:layout_width="125dp"
+            android:layout_height="100dp"
+            android:src="@drawable/common_google_signin_btn_icon_dark_normal" />
+
+    </LinearLayout>
 
     <!-- TODO: Update blank fragment layout -->
-    <Button
+<!--    <Button
         android:id="@+id/btn_signout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:enabled="false"
-        android:text="Sign Out" />
+        android:text="Sign Out" />-->
 
 </RelativeLayout>
