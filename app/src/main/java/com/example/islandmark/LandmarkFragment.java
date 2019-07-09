@@ -45,6 +45,7 @@ public class LandmarkFragment extends Fragment {
     private LandmarkDetailsAdapter landmarkDetailsAdapter;
     private Spinner spinner;
     EditText editText;
+    private String currentStatus = "none";
 
     public LandmarkFragment() {
         // Required empty public constructor
@@ -128,12 +129,16 @@ public class LandmarkFragment extends Fragment {
                 String selectedItem = parent.getItemAtPosition(position).toString();
                 if (parent.getItemAtPosition(position).equals("Choose Filter")) {
                     loadLandmarkDetails();
+                    currentStatus = "none";
                 } else if (parent.getItemAtPosition(position).equals("Recreational")){
-                    loadLandmarkDetails("Cultural");
+                    loadLandmarkDetails("Recreational");
+                    currentStatus = "Recreational";
                 } else if (parent.getItemAtPosition(position).equals("Historical")) {
                     loadLandmarkDetails("Historical");
+                    currentStatus = "Historical";
                 } else if (parent.getItemAtPosition(position).equals("Cultural")) {
                     loadLandmarkDetails("Cultural");
+                    currentStatus = "Cultural";
                 }
             }
 
@@ -166,7 +171,15 @@ public class LandmarkFragment extends Fragment {
                         String descriptionlong = (String) document.get(LandmarkDetails.descriptionlongKey);
                         String type = (String) document.get(LandmarkDetails.typeKey);
                         LandmarkDetails details = new LandmarkDetails(description, name, location,documentID,descriptionlong,timespent,type);
-                        landmarkDetailsList.add(details);
+                        if (currentStatus.equals("none")) {
+                            landmarkDetailsList.add(details);
+                        } else if (currentStatus.equals("Recreational") && details.type.equals("Recreational")){
+                            landmarkDetailsList.add(details);
+                        } else if (currentStatus.equals("Cultural") && details.type.equals("Cultural")) {
+                            landmarkDetailsList.add(details);
+                        } else if (currentStatus.equals("Historical") && details.type.equals("Historical")) {
+                            landmarkDetailsList.add(details);
+                        }
                     }
                 }
                 landmarkDetailsAdapter.notifyDataSetChanged();
@@ -235,7 +248,15 @@ public class LandmarkFragment extends Fragment {
                         String descriptionlong = (String) document.get(LandmarkDetails.descriptionlongKey);
                         String type = (String) document.get(LandmarkDetails.typeKey);
                         LandmarkDetails details = new LandmarkDetails(description, name, location,documentID,descriptionlong,timespent,type);
-                        landmarkDetailsList.add(details);
+                        if (currentStatus.equals("none")) {
+                            landmarkDetailsList.add(details);
+                        } else if (currentStatus.equals("Recreational") && details.type.equals("Recreational")){
+                            landmarkDetailsList.add(details);
+                        } else if (currentStatus.equals("Cultural") && details.type.equals("Cultural")) {
+                            landmarkDetailsList.add(details);
+                        } else if (currentStatus.equals("Historical") && details.type.equals("Historical")) {
+                            landmarkDetailsList.add(details);
+                        }
                         count++;
                     }
                 }
