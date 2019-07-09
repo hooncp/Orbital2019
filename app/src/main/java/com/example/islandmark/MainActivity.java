@@ -80,8 +80,14 @@ public class MainActivity extends AppCompatActivity implements AccountFragment.O
                         fragment = new MapViewFragment();
                         break;
                     case R.id.navigation_account:
-                        fragment = new AccountFragment();
-                        break;
+                        if(mAuth.getCurrentUser()== null) {
+                            fragment = new AccountFragment();
+                            break;
+                        }
+                        else{
+                            fragment = new ProfileFragment();
+                            break;
+                        }
                 }
                 checkLocation();
                 return displaySelectedScreen(fragment);
@@ -185,9 +191,20 @@ public class MainActivity extends AppCompatActivity implements AccountFragment.O
                 break;
 
             case R.id.profile:
-                Intent mainIntent = new Intent(MainActivity.this, SetupActivity.class);
-                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(mainIntent);
+                if (mAuth.getCurrentUser()!=null) {
+                    Intent mainIntent = new Intent(MainActivity.this, SetupActivity.class);
+                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(mainIntent);
+                }
+                else {
+                    Toast.makeText(MainActivity.this, "Please login before setting up profile",Toast.LENGTH_LONG).show();
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .addToBackStack(null)
+                            .replace(R.id.fragment_container, new AccountFragment())
+                            .commit();
+
+                }
                 break;
         }
 

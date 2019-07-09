@@ -1,5 +1,6 @@
 package com.example.islandmark;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -12,8 +13,11 @@ import androidx.fragment.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -35,6 +39,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 import java.util.concurrent.Executor;
+
+import static android.content.Context.INPUT_METHOD_SERVICE;
 
 
 /**
@@ -101,6 +107,14 @@ public class AccountFragment extends Fragment
             }
         });
 
+        view.findViewById(R.id.relativeLayout1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+            }
+        });
+
         // Configure Google Sign In(not done yet)
         /*GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -126,7 +140,7 @@ public class AccountFragment extends Fragment
                 signIn();
             }
         });*/
-        return inflater.inflate(R.layout.fragment_account, container, false);
+        return view;
 
     }
 
@@ -212,11 +226,11 @@ public class AccountFragment extends Fragment
 
         if(TextUtils.isEmpty(email))
         {
-            Toast.makeText(getContext(), "Please write your email...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Please enter your email", Toast.LENGTH_SHORT).show();
         }
         else if(TextUtils.isEmpty(password))
         {
-            Toast.makeText(getContext(), "Please write your password...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Please enter your password", Toast.LENGTH_SHORT).show();
         }
         else
         {
