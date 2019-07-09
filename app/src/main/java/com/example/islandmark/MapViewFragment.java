@@ -52,12 +52,12 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
         if (bundle != null) {
             landmark = bundle.getParcelable("LANDMARKOBJ");
         }
-        getActivity().setTitle("Map");
+        getActivity().setTitle(getString(R.string.Map));
     }
 
     public void onResume() {
         super.onResume();
-        getActivity().setTitle("Map");
+        getActivity().setTitle(getString(R.string.Map));
     }
 
     @Override

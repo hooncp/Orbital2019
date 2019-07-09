@@ -18,6 +18,12 @@
             android:padding="10dp"
             android:hint="Search"/>
 
+        <Spinner
+            android:id = "@+id/filter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </Spinner>
+
         <RelativeLayout
             android:id="@+id/loadingPanel"
             android:layout_width="match_parent"

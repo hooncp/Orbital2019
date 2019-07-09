@@ -12,8 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import com.example.islandmark.model.LandmarkDetails;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -41,6 +43,7 @@ public class LandmarkFragment extends Fragment {
     private List<LandmarkDetails> landmarkDetailsList = new ArrayList<>();
     private ListView listView;
     private LandmarkDetailsAdapter landmarkDetailsAdapter;
+    private Spinner spinner;
     EditText editText;
 
     public LandmarkFragment() {
@@ -109,12 +112,72 @@ public class LandmarkFragment extends Fragment {
         loadLandmarkDetails();
 //        TextView e    mptyText = (TextView)view.findViewById(android.R.id.empty);
 //        listView.setEmptyView(emptyText);
+        spinner = (Spinner) view.findViewById(R.id.filter);
+        List<String> list = new ArrayList<String>();
+        list.add(0,"Choose Filter");
+        list.add("Recreational");
+        list.add("Historical");
+        list.add("Cultural");
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(),
+                android.R.layout.simple_spinner_item, list);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()  {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedItem = parent.getItemAtPosition(position).toString();
+                if (parent.getItemAtPosition(position).equals("Choose Filter")) {
+                    loadLandmarkDetails();
+                } else if (parent.getItemAtPosition(position).equals("Recreational")){
+                    loadLandmarkDetails("Cultural");
+                } else if (parent.getItemAtPosition(position).equals("Historical")) {
+                    loadLandmarkDetails("Historical");
+                } else if (parent.getItemAtPosition(position).equals("Cultural")) {
+                    loadLandmarkDetails("Cultural");
+                }
+            }
+
+            @Override
+            public void onNothingSelected (AdapterView < ? > parent) {
+
+            }
+        });
         return view;
     }
 
     private void loadLandmarkDetails() {
         FirebaseFirestore fs = FirebaseFirestore.getInstance();
         fs.collection(LandmarkDetails.landmarkDetailsKey).orderBy(LandmarkDetails.nameKey).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                List<DocumentSnapshot> documents = task.getResult().getDocuments();
+                // clean up the list to prevent double copies
+                landmarkDetailsList.removeAll(landmarkDetailsList);
+                for (DocumentSnapshot document : documents) {
+
+                    if (document.contains(LandmarkDetails.descriptionKey) && document.contains(LandmarkDetails.locationKey)
+                            && document.contains(LandmarkDetails.nameKey)) {
+
+                        String description = (String) document.get(LandmarkDetails.descriptionKey);
+                        String name = (String) document.get(LandmarkDetails.nameKey);
+                        GeoPoint location = (GeoPoint)document.get(LandmarkDetails.locationKey);
+                        String documentID = (String) document.getId();
+                        String timespent = (String)document.get(LandmarkDetails.timespentkey);
+                        String descriptionlong = (String) document.get(LandmarkDetails.descriptionlongKey);
+                        String type = (String) document.get(LandmarkDetails.typeKey);
+                        LandmarkDetails details = new LandmarkDetails(description, name, location,documentID,descriptionlong,timespent,type);
+                        landmarkDetailsList.add(details);
+                    }
+                }
+                landmarkDetailsAdapter.notifyDataSetChanged();
+                getView().findViewById(R.id.loadingPanel).setVisibility(View.GONE);
+            }
+        });
+    }
+
+    private void loadLandmarkDetails(String filter) {
+        FirebaseFirestore fs = FirebaseFirestore.getInstance();
+        fs.collection(LandmarkDetails.landmarkDetailsKey).whereEqualTo(LandmarkDetails.typeKey, filter).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 List<DocumentSnapshot> documents = task.getResult().getDocuments();
