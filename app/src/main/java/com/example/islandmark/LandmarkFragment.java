@@ -54,12 +54,12 @@ public class LandmarkFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle("Landmarks");
+        getActivity().setTitle(getString(R.string.Search));
     }
 
     public void onResume() {
         super.onResume();
-        getActivity().setTitle("Landmarks");
+        getActivity().setTitle(getString(R.string.Search));
     }
 
     @Override
