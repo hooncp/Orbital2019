@@ -42,7 +42,8 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class MainActivity extends AppCompatActivity implements AccountFragment.OnFragmentInteractionListener,
         HomeFragment.OnFragmentInteractionListener, MapViewFragment.OnFragmentInteractionListener,
-        LandmarkFragment.OnFragmentInteractionListener, LandmarkDetailsFragment.OnFragmentInteractionListener{
+        LandmarkFragment.OnFragmentInteractionListener, LandmarkDetailsFragment.OnFragmentInteractionListener,
+        ProfileFragment.OnFragmentInteractionListener{
 
     private FusedLocationProviderClient client;
     private ArrayList<LandmarkDetails> landmarkDetailsList = new ArrayList<>();

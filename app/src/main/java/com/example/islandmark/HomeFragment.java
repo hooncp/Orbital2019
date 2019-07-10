@@ -1,6 +1,7 @@
 package com.example.islandmark;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -10,10 +11,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.islandmark.model.LandmarkDetails;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
@@ -37,6 +47,13 @@ public class HomeFragment extends Fragment {
     HorizontalRecycleViewAdapter adapter;
 
     private OnFragmentInteractionListener mListener;
+
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private DatabaseReference dataref;
+
+    String name;
+    private String userid;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -63,6 +80,30 @@ public class HomeFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         recyclerView = view.findViewById(R.id.recycle);
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        if (mAuth!=null){
+            userid = mAuth.getUid();
+            dataref = database.getReference().child("Users").child("SMLGTnAHSnhhkSdo8TzRGfNTp2g1").child("fullname");
+            dataref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    name = dataSnapshot.getValue(String.class);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
+
+        else{
+            name="user";
+        }
+
+        TextView welcomeText = view.findViewById(R.id.welcome);
+        welcomeText.setText("Hello, "+name+"!");
         view.findViewById(R.id.welcome).setVisibility(View.GONE);
         view.findViewById(R.id.textView7).setVisibility(View.GONE);
 

@@ -35,7 +35,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class SetupActivity extends AppCompatActivity {
 
     private EditText UserName, FullName, CountryName;
-    private Button SaveInformationbuttion;
+    private Button SaveInformationbutton;
     private CircleImageView ProfileImage;
 
     private FirebaseAuth mAuth;
@@ -60,11 +60,11 @@ public class SetupActivity extends AppCompatActivity {
         UserName = (EditText)findViewById(R.id.user_name);
         FullName = (EditText)findViewById(R.id.full_name);
         CountryName =  (EditText)findViewById(R.id.country);
-        SaveInformationbuttion = (Button) findViewById(R.id.save_Button);
+        SaveInformationbutton = (Button) findViewById(R.id.save_Button);
         ProfileImage = (CircleImageView) findViewById(R.id.profile_pic);
 
 
-        SaveInformationbuttion.setOnClickListener(new View.OnClickListener() {
+        SaveInformationbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {

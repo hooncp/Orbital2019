@@ -18,6 +18,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -25,6 +29,9 @@ public class RegisterActivity extends AppCompatActivity {
     private Button CreateAccountButton;
 
     private FirebaseAuth mAuth;
+    private DatabaseReference UsersRef;
+
+    String currentUserID;
 
 
     @Override
@@ -115,6 +122,21 @@ public class RegisterActivity extends AppCompatActivity {
                         {
                             if(task.isSuccessful())
                             {
+                                //add empty array of available landmarks when account is created, new user is signed in automatically
+                                currentUserID = mAuth.getCurrentUser().getUid();
+                                UsersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserID);
+
+                                HashMap locationMap =  new HashMap();
+
+                                locationMap.put("Chinatown Heritage Centre",0);
+                                locationMap.put("Singapore Flyer",0);
+                                locationMap.put("Fort Canning Park",0);
+                                locationMap.put("National Museum of Singapore",0);
+                                locationMap.put("Changi Museum",0);
+                                locationMap.put("Merlion Park",0);
+
+                                UsersRef.updateChildren(locationMap);
+
                                 SendUserToSetupActivity();
 
                                 Toast.makeText(RegisterActivity.this, "Account created successfully!", Toast.LENGTH_SHORT).show();
@@ -126,6 +148,8 @@ public class RegisterActivity extends AppCompatActivity {
                             }
                         }
                     });
+
+
         }
     }
 
