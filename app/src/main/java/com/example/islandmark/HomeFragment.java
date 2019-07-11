@@ -51,6 +51,7 @@ public class HomeFragment extends Fragment {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference dataref;
+    private FirebaseDatabase database;
 
     String name;
     private String userid;
@@ -81,29 +82,17 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         recyclerView = view.findViewById(R.id.recycle);
         mAuth = FirebaseAuth.getInstance();
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        if (mAuth!=null){
-            userid = mAuth.getUid();
-            dataref = database.getReference().child("Users").child("SMLGTnAHSnhhkSdo8TzRGfNTp2g1").child("fullname");
-            dataref.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    name = dataSnapshot.getValue(String.class);
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
-        }
-
-        else{
-            name="user";
-        }
-
+        database = FirebaseDatabase.getInstance();
         TextView welcomeText = view.findViewById(R.id.welcome);
-        welcomeText.setText("Hello, "+name+"!");
+        updateName(welcomeText);
+
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                updateName(welcomeText);
+            }
+        };
+
         view.findViewById(R.id.welcome).setVisibility(View.GONE);
         view.findViewById(R.id.textView7).setVisibility(View.GONE);
 
@@ -153,6 +142,33 @@ public class HomeFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void updateName(TextView welcomeText){
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user =mAuth.getCurrentUser();
+        database = FirebaseDatabase.getInstance();
+        if (user!=null){
+            userid = user.getUid();
+            dataref = database.getReference().child("Users").child(userid).child("fullname");
+            dataref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    name = dataSnapshot.getValue(String.class);
+                    welcomeText.setText("Hello, "+name+"!");
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
+
+        else{
+            welcomeText.setText("Hello, User!");
+        }
+
     }
 
     private void loadRecommendedData() {

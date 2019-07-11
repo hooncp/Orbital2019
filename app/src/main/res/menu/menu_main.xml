@@ -14,9 +14,9 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/profile"
+        android:id="@+id/edit_profile"
         android:orderInCategory="1"
-        android:title="Profile"
+        android:title="Ecit profile"
         app:showAsAction="never" />
 
 </menu>

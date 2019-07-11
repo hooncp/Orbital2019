@@ -49,6 +49,7 @@ public class SetupActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        setTitle("Edit account");
         setContentView(R.layout.activity_setup);
 
         mAuth = FirebaseAuth.getInstance();
@@ -214,6 +215,10 @@ public class SetupActivity extends AppCompatActivity {
             userMap.put("username", username);
             userMap.put("fullname", fullname);
             userMap.put("country", country);
+
+            if (country.equalsIgnoreCase("china")){
+
+            }
 
             UsersRef.updateChildren(userMap).addOnCompleteListener(new OnCompleteListener() {
                 @Override

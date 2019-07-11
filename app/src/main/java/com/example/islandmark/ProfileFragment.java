@@ -5,21 +5,27 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 
 /**
@@ -32,6 +38,9 @@ import com.google.firebase.database.ValueEventListener;
  */
 public class ProfileFragment extends Fragment {
     private TextView users_username, users_fullname,users_country,users_language;
+    private ListView landmarkList;
+    private ArrayList<String> arrayList = new ArrayList<>();
+    ArrayAdapter<String> arrayAdapter;
 
     private OnFragmentInteractionListener mListener;
 
@@ -71,9 +80,52 @@ public class ProfileFragment extends Fragment {
                 String fname = dataSnapshot.child("fullname").getValue(String.class);
                 String country = dataSnapshot.child("country").getValue(String.class);
 
-                users_username.setText("Username: "+ uname);
-                users_fullname.setText("Full name: "+ fname);
-                users_country.setText("Country: "+country);
+                users_username.setText("Username:   "+ uname);
+                users_fullname.setText("Full name:   "+ fname);
+                users_country.setText("Country:   "+country);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        dataref = dataref.child("Locations");
+        arrayAdapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,arrayList);
+
+        landmarkList = view.findViewById(R.id.landmark_list);
+        landmarkList.setAdapter(arrayAdapter);
+
+        dataref.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                String value = dataSnapshot.getValue().toString();
+                String key = dataSnapshot.getKey();
+
+                if (value.equals("1")){
+                    value = "Visited";
+                }
+                else {
+                    value = "Not visited";
+                }
+                arrayList.add(key + " : " + value);
+                arrayAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
             }
 
             @Override

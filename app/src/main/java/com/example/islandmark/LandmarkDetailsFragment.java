@@ -17,9 +17,15 @@ import android.widget.TextView;
 import com.example.islandmark.model.LandmarkDetails;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
+
+import java.util.HashMap;
 
 
 /**
@@ -41,6 +47,10 @@ public class LandmarkDetailsFragment extends Fragment {
     TextView tv2;
     TextView tv5;
     ImageView imageView;
+    private FirebaseAuth mAuth;
+    private DatabaseReference dataref;
+    private FirebaseDatabase database;
+
 
     public LandmarkDetailsFragment() {
         // Required empty public constructor
@@ -90,8 +100,18 @@ public class LandmarkDetailsFragment extends Fragment {
                 if (landmark.getDistance() > 10) {
                     // can change to pop up instead.
                     Snackbar.make(view, "moving to AR mode", Snackbar.LENGTH_LONG).show();
-                    //TODO: Start AR activity
-                    // Create new fragment and transaction
+                    // mark landmark as visited after this button is pressed
+
+                    mAuth = FirebaseAuth.getInstance();
+                    if (mAuth.getCurrentUser()!= null){
+                        database = FirebaseDatabase.getInstance();
+                        dataref = database.getReference().child("Users").child(mAuth.getCurrentUser().getUid()).child("Locations");
+
+                        HashMap locationMap = new HashMap();
+                        locationMap.put(landmark.name,"1");
+
+                        dataref.updateChildren(locationMap);
+                    }
                     Intent intent = new Intent();
                     intent.setClass(getActivity(), Ar_activity.class);
                     getActivity().startActivity(intent);

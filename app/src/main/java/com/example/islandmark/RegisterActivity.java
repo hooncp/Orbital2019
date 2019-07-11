@@ -38,6 +38,7 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        setTitle("Register");
         setContentView(R.layout.activity_register);
 
         mAuth = FirebaseAuth.getInstance();
@@ -124,7 +125,7 @@ public class RegisterActivity extends AppCompatActivity {
                             {
                                 //add empty array of available landmarks when account is created, new user is signed in automatically
                                 currentUserID = mAuth.getCurrentUser().getUid();
-                                UsersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserID);
+                                UsersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserID).child("Locations");
 
                                 HashMap locationMap =  new HashMap();
 

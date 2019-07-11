@@ -191,7 +191,7 @@ public class MainActivity extends AppCompatActivity implements AccountFragment.O
                 logout();
                 break;
 
-            case R.id.profile:
+            case R.id.edit_profile:
                 if (mAuth.getCurrentUser()!=null) {
                     Intent mainIntent = new Intent(MainActivity.this, SetupActivity.class);
                     mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -223,8 +223,17 @@ public class MainActivity extends AppCompatActivity implements AccountFragment.O
     }
 
     private void logout(){
+        if(mAuth.getCurrentUser()==null){
+            return;
+        }
         mAuth.signOut();
         Toast.makeText(MainActivity.this, "Logout successful!",Toast.LENGTH_LONG).show();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .addToBackStack(null)
+                .replace(R.id.fragment_container, new HomeFragment())
+                .commit();
+
     }
 
     private void changeLanguage() {
