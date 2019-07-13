@@ -129,7 +129,7 @@ public class SetupActivity extends AppCompatActivity {
         if(requestCode==Gallery_Pick && resultCode==RESULT_OK && data!=null)
         {
             Uri ImageUri = data.getData();
-
+            //allow users to crop their image
             CropImage.activity()
                     .setGuidelines(CropImageView.Guidelines.ON)
                     .setAspectRatio(1, 1)
@@ -142,9 +142,9 @@ public class SetupActivity extends AppCompatActivity {
 
             if(resultCode == RESULT_OK)
             {
-
+                //crop result uri
                 Uri resultUri = result.getUri();
-
+                //store it in their unique id
                 StorageReference filePath = UserProfileImageRef.child(currentUserID + ".jpg");
 
                 filePath.putFile(resultUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
@@ -153,7 +153,7 @@ public class SetupActivity extends AppCompatActivity {
                     {
                         if(task.isSuccessful())
                         {
-                            Toast.makeText(SetupActivity.this, "Profile Image stored successfully to Firebase storage", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SetupActivity.this, "Profile Image stored successfully!", Toast.LENGTH_SHORT).show();
 
                             final String downloadUrl = task.getResult().getStorage().getDownloadUrl().toString();
 
@@ -166,8 +166,8 @@ public class SetupActivity extends AppCompatActivity {
                                             {
                                                 Intent selfIntent = new Intent(SetupActivity.this, SetupActivity.class);
                                                 startActivity(selfIntent);
-
-                                                Toast.makeText(SetupActivity.this, "Profile Image stored to Firebase Database Successfully...", Toast.LENGTH_SHORT).show();
+                                                //save user profile image url into firebase database
+                                                Toast.makeText(SetupActivity.this, "Profile Image stored Successfully!", Toast.LENGTH_SHORT).show();
                                             }
                                             else
                                             {
@@ -182,7 +182,7 @@ public class SetupActivity extends AppCompatActivity {
             }
             else
             {
-                Toast.makeText(this, "Error Occured: Image can not be cropped. Try Again.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Error Occured: Image cannot be cropped. Try Again.", Toast.LENGTH_SHORT).show();
             }
         }
     }
