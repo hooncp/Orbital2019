@@ -1,6 +1,7 @@
 package com.example.islandmark;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
@@ -38,7 +39,7 @@ import java.util.List;
  * Activities that contain this fragment must implement the
  * {@link HomeFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link HomeFragment#newInstance} factory method to
+ * Use the {@link HomeFragment# newInstance} factory method to
  * create an instance of this fragment.
  */
 public class HomeFragment extends Fragment {
@@ -49,6 +50,7 @@ public class HomeFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private FirebaseAuth mAuth;
+    private FirebaseUser mUser;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference dataref;
     private FirebaseDatabase database;
@@ -82,7 +84,28 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         recyclerView = view.findViewById(R.id.recycle);
         mAuth = FirebaseAuth.getInstance();
+        mUser = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
+
+        if (mAuth.getCurrentUser()!=null)
+        {
+            database.getReference().child("Users").child(mUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.getValue() == null) {
+                        Toast.makeText(getContext(),"Please setup your account to unlock more functions",Toast.LENGTH_SHORT).show();
+                        Intent setupIntent = new Intent(getContext(), SetupActivity.class);
+                        startActivity(setupIntent);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
+
         TextView welcomeText = view.findViewById(R.id.welcome);
         updateName(welcomeText);
 

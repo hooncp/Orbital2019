@@ -109,23 +109,12 @@
         app:layout_constraintStart_toStartOf="@+id/textView6"
         app:layout_constraintTop_toBottomOf="@+id/locateBtn" />
 
-            <Button
-                android:id="@+id/addBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="8dp"
-                android:text="Add"
-                app:layout_constraintEnd_toStartOf="@+id/locateBtn"
-                app:layout_constraintStart_toEndOf="@+id/startBtn"
-                app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
             <Button
                 android:id="@+id/locateBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="8dp"
                 android:text="Locate"
@@ -139,24 +128,47 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
-                android:layout_marginEnd="50dp"
+                android:layout_marginEnd="8dp"
                 android:text="Check AR"
                 app:layout_constraintEnd_toStartOf="@+id/frameLayout"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView6"></Button>
+                app:layout_constraintTop_toBottomOf="@+id/textView6"/>
 
-    <FrameLayout
-        android:id="@+id/frameLayout"
-        android:layout_width="28dp"
-        android:layout_height="67dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6">
+            <Button
+                android:id="@+id/addBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="8dp"
+                android:text="Add"
+                app:layout_constraintEnd_toStartOf="@+id/frameLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/startBtn" />
 
-    </FrameLayout>
+            <Button
+                android:id="@+id/reviewBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="8dp"
+                android:text="Reviews"
+                app:layout_constraintEnd_toEndOf="@+id/frameLayout"
+                app:layout_constraintStart_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/startBtn" />
+
+
+            <FrameLayout
+                android:id="@+id/frameLayout"
+                android:layout_width="28dp"
+                android:layout_height="67dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView6" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

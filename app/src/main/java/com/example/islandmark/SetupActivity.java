@@ -40,6 +40,7 @@ public class SetupActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private DatabaseReference UsersRef;
+    private DatabaseReference rootRef;
     private StorageReference UserProfileImageRef;
 
     String currentUserID;
@@ -211,6 +212,30 @@ public class SetupActivity extends AppCompatActivity {
         {
             //storing user information into firebase database (key,value)
 
+            rootRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserID).child("Locations");
+            rootRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    if (snapshot.getValue()==null) {
+                        HashMap locationMap =  new HashMap();
+
+                        locationMap.put("Chinatown Heritage Centre",0);
+                        locationMap.put("Singapore Flyer",0);
+                        locationMap.put("Fort Canning Park",0);
+                        locationMap.put("National Museum of Singapore",0);
+                        locationMap.put("Changi Museum",0);
+                        locationMap.put("Merlion Park",0);
+
+                        rootRef.updateChildren(locationMap);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
             HashMap userMap = new HashMap();
             userMap.put("username", username);
             userMap.put("fullname", fullname);
@@ -248,5 +273,9 @@ public class SetupActivity extends AppCompatActivity {
         mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(mainIntent);
         finish();
+    }
+    @Override
+    public void onBackPressed(){
+        SendUserToMainActivity();
     }
 }

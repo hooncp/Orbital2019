@@ -194,7 +194,6 @@ public class MainActivity extends AppCompatActivity implements AccountFragment.O
             case R.id.edit_profile:
                 if (mAuth.getCurrentUser()!=null) {
                     Intent mainIntent = new Intent(MainActivity.this, SetupActivity.class);
-                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(mainIntent);
                 }
                 else {

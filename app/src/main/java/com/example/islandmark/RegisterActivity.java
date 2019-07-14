@@ -124,19 +124,7 @@ public class RegisterActivity extends AppCompatActivity {
                             if(task.isSuccessful())
                             {
                                 //add empty array of available landmarks when account is created, new user is signed in automatically
-                                currentUserID = mAuth.getCurrentUser().getUid();
-                                UsersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserID).child("Locations");
-
-                                HashMap locationMap =  new HashMap();
-
-                                locationMap.put("Chinatown Heritage Centre",0);
-                                locationMap.put("Singapore Flyer",0);
-                                locationMap.put("Fort Canning Park",0);
-                                locationMap.put("National Museum of Singapore",0);
-                                locationMap.put("Changi Museum",0);
-                                locationMap.put("Merlion Park",0);
-
-                                UsersRef.updateChildren(locationMap);
+                                //moved function to setup activity
 
                                 SendUserToSetupActivity();
 
@@ -159,6 +147,12 @@ public class RegisterActivity extends AppCompatActivity {
         Intent setupIntent = new Intent(RegisterActivity.this, SetupActivity.class);
         setupIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(setupIntent);
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
         finish();
     }
 }

@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.islandmark.model.LandmarkDetails;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -38,8 +39,7 @@ import java.util.HashMap;
  */
 public class LandmarkDetailsFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
-    Button locateBtn;
-    Button startBtn;
+    Button locateBtn, startBtn, addBtn, reviewBtn;
     LandmarkDetails landmark;
     TextView tv4;
     TextView tv;
@@ -97,7 +97,7 @@ public class LandmarkDetailsFragment extends Fragment {
             public void onClick(View view) {
                 MainActivity activity = (MainActivity) getActivity();
                 activity.checkLocation();
-                if (landmark.getDistance() > 10) {
+                if (landmark.getDistance() < 10) {
                     // can change to pop up instead.
                     Snackbar.make(view, "moving to AR mode", Snackbar.LENGTH_LONG).show();
                     // mark landmark as visited after this button is pressed
@@ -119,6 +119,24 @@ public class LandmarkDetailsFragment extends Fragment {
                 } else {
                     Snackbar.make(view, "You are not there yet", Snackbar.LENGTH_LONG).show();
                 }
+            }
+        });
+        addBtn = view.findViewById(R.id.addBtn);
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(),"Landmark added to package!",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        reviewBtn = view.findViewById(R.id.reviewBtn);
+        reviewBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(getActivity(),ReviewsActivity.class);
+                intent.putExtra("landmark",landmark);
+                getActivity().startActivity(intent);
             }
         });
         tv4 = view.findViewById(R.id.textView4);
