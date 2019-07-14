@@ -64,6 +64,9 @@ public class ReviewsActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
+
+        database = FirebaseDatabase.getInstance();
+
         if(mUser!=null){
             userId = mUser.getUid();
             userref = database.getInstance().getReference().child("Users").child(userId).child("username");
@@ -78,10 +81,8 @@ public class ReviewsActivity extends AppCompatActivity {
 
                 }
             });
+            dataref = FirebaseDatabase.getInstance().getReference().child("Reviews").child(landmark.name).child(userId);
         }
-
-        database = FirebaseDatabase.getInstance();
-        dataref = database.getReference().child("Reviews").child(landmark.name).child(userId);
 
         postReview.setOnClickListener(new View.OnClickListener() {
             @Override
