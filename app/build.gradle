@@ -41,8 +41,8 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'androidx.multidex:multidex:2.0.1'
     //revert back to 1.8.0 if get filament material error
-    implementation 'com.google.ar.sceneform.ux:sceneform-ux:1.8.0'
-    implementation 'com.google.ar:core:1.8.0'
+    implementation 'com.google.ar.sceneform.ux:sceneform-ux:1.10.0'
+    implementation 'com.google.ar:core:1.10.0'
     //both
     implementation 'com.google.firebase:firebase-auth:18.0.0'
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
@@ -129,3 +129,9 @@ sceneform.asset('SampleData/wolverine.fbx',
         'default',
         'SampleData/wolverine.sfa',
         'src/main/res/raw/wolverine')
+
+
+sceneform.asset('SampleData/video_screen.obj',
+        'SampleData/material.mat',
+        'SampleData/video_screen.sfa',
+        'src/main/res/raw/video_screen')

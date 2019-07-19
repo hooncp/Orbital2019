@@ -2,6 +2,7 @@ package com.example.islandmark;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -20,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.ar.core.Anchor;
+import com.google.ar.core.AugmentedImage;
 import com.google.ar.core.Frame;
 import com.google.ar.core.HitResult;
 import com.google.ar.core.Plane;
@@ -27,6 +29,8 @@ import com.google.ar.core.Trackable;
 import com.google.ar.core.TrackingState;
 import com.google.ar.sceneform.*;
 import com.google.ar.sceneform.math.Vector3;
+import com.google.ar.sceneform.rendering.Color;
+import com.google.ar.sceneform.rendering.ExternalTexture;
 import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
@@ -36,6 +40,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -53,7 +58,8 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
             koalaRenderable,
             lionRenderable,
             reindeerRenderable,
-            wolverineRenderable;
+            wolverineRenderable,
+            videoRenderable;
 
     ImageView bear, cat, cow, dog, elephant, ferret, hippopotamus, horse, koala, lion, reindeer, wolverine;
 
@@ -65,6 +71,11 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
     private PointerDrawable pointer = new PointerDrawable();
     private boolean isTracking;
     private boolean isHitting;
+
+    private ExternalTexture externalTexture;
+    private MediaPlayer mediaPlayer;
+    private Scene scene;
+    private Boolean detected = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -102,8 +113,66 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
             arFragment.onUpdate(frameTime);
             onUpdate();
         });
+
+        scene = arFragment.getArSceneView().getScene();
+        scene.addOnUpdateListener(this::updateDetect);
         FloatingActionButton btnPhoto = findViewById(R.id.btnPhoto);
         btnPhoto.setOnClickListener(view -> takePhoto());
+
+        externalTexture = new ExternalTexture();
+        mediaPlayer = MediaPlayer.create(this,R.raw.test_video);
+        mediaPlayer.setSurface(externalTexture.getSurface());
+
+        mediaPlayer.setLooping(false);
+
+        ModelRenderable
+                .builder()
+                .setSource(this,Uri.parse("video_screen.sfb"))
+                .build()
+                .thenAccept(modelRenderable ->
+                {modelRenderable.getMaterial().setExternalTexture("videoTexture", externalTexture);
+                modelRenderable.getMaterial().setFloat4("keyColor",
+                        new Color(0.01843f,1f,0.098f));
+                videoRenderable = modelRenderable;
+                });
+
+
+    }
+
+    private void updateDetect(FrameTime frameTime) {
+        if(detected)
+            return;
+
+        Frame frame = arFragment.getArSceneView().getArFrame();
+        Collection<AugmentedImage> augmentedImages =
+                frame.getUpdatedTrackables(AugmentedImage.class);
+
+        for (AugmentedImage image: augmentedImages){
+
+            if (image.getTrackingState()== TrackingState.TRACKING){
+
+                if (image.getName().equals("image")){
+                    detected = true;
+                    playVideo(image.createAnchor(image.getCenterPose()),image.getExtentX(),image.getExtentZ());
+                    break;
+                }
+            }
+        }
+    }
+
+    private void playVideo(Anchor anchor, float extentX, float extentZ) {
+        mediaPlayer.start();
+
+        AnchorNode anchorNode= new AnchorNode(anchor);
+
+        externalTexture.getSurfaceTexture().setOnFrameAvailableListener(surfaceTexture -> {
+            anchorNode.setRenderable(videoRenderable);
+            externalTexture.getSurfaceTexture().setOnFrameAvailableListener(null);
+        });
+
+        anchorNode.setWorldScale(new Vector3(extentX,1f,extentZ));
+
+        scene.addChild(anchorNode);
     }
 
     private void onUpdate() {

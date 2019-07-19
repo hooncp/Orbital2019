@@ -97,7 +97,7 @@ public class LandmarkDetailsFragment extends Fragment {
             public void onClick(View view) {
                 MainActivity activity = (MainActivity) getActivity();
                 activity.checkLocation();
-                if (landmark.getDistance() < 10) {
+                if (landmark.getDistance() > 10) {
                     // can change to pop up instead.
                     Snackbar.make(view, "moving to AR mode", Snackbar.LENGTH_LONG).show();
                     // mark landmark as visited after this button is pressed
