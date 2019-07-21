@@ -20,13 +20,17 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
+import java.util.List;
 
 
 /**
@@ -50,6 +54,7 @@ public class LandmarkDetailsFragment extends Fragment {
     private FirebaseAuth mAuth;
     private DatabaseReference dataref;
     private FirebaseDatabase database;
+    private List<String> packageLandmarks;
 
 
     public LandmarkDetailsFragment() {
@@ -75,6 +80,8 @@ public class LandmarkDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_landmark_details, container, false);
+        mAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
         locateBtn = view.findViewById(R.id.locateBtn);
         locateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,15 +109,16 @@ public class LandmarkDetailsFragment extends Fragment {
                     Snackbar.make(view, "moving to AR mode", Snackbar.LENGTH_LONG).show();
                     // mark landmark as visited after this button is pressed
 
-                    mAuth = FirebaseAuth.getInstance();
                     if (mAuth.getCurrentUser()!= null){
-                        database = FirebaseDatabase.getInstance();
                         dataref = database.getReference().child("Users").child(mAuth.getCurrentUser().getUid()).child("Locations");
 
                         HashMap locationMap = new HashMap();
                         locationMap.put(landmark.name,"1");
 
                         dataref.updateChildren(locationMap);
+
+                        dataref = database.getReference().child("Users").child(mAuth.getCurrentUser().getUid()).child("Package");
+                        dataref.child(landmark.name).removeValue();
                     }
                     Intent intent = new Intent();
                     intent.setClass(getActivity(), Ar_activity.class);
@@ -125,7 +133,21 @@ public class LandmarkDetailsFragment extends Fragment {
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(),"Landmark added to package!",Toast.LENGTH_SHORT).show();
+                if (mAuth.getCurrentUser()==null){
+                    Toast.makeText(getContext(), "Please login to unlock this feature.", Toast.LENGTH_SHORT).show();
+
+                }
+                else {
+                    Toast.makeText(getContext(), "Landmark added to package!", Toast.LENGTH_SHORT).show();
+                    dataref = database.getReference().child("Users").child(mAuth.getCurrentUser().getUid()).child("Package");
+
+                    //try to sort by closest
+
+                    HashMap packageMap = new HashMap();
+                    packageMap.put(landmark.name,landmark.getDistance());
+
+                    dataref.updateChildren(packageMap);
+                }
             }
         });
 

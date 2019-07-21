@@ -46,7 +46,7 @@ import java.util.List;
 
 public class Ar_activity extends AppCompatActivity implements View.OnClickListener {
 
-    private ArFragment arFragment;
+    private WritingArFragment arFragment;
     private ModelRenderable bearRenderable,
             catRenderable,
             cowRenderable,
@@ -81,7 +81,7 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_ar);
-        arFragment = (ArFragment)getSupportFragmentManager().findFragmentById(R.id.sceneform_fragment);
+        arFragment = (WritingArFragment)getSupportFragmentManager().findFragmentById(R.id.sceneform_fragment);
         bear = findViewById(R.id.bear);
         cat = findViewById(R.id.cat);
         cow = findViewById(R.id.cow);
