@@ -134,4 +134,4 @@ sceneform.asset('SampleData/wolverine.fbx',
 sceneform.asset('SampleData/video_screen.obj',
         'SampleData/material.mat',
         'SampleData/video_screen.sfa',
-        'src/main/res/raw/video_screen')
+        'src/main/assets/video_screen')
