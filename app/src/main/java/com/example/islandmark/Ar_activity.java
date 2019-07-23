@@ -10,6 +10,8 @@ import android.os.Handler;
 import android.os.HandlerThread;
 
 import androidx.annotation.Nullable;
+
+import com.example.islandmark.model.CustomVisualizer;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.core.content.FileProvider;
@@ -82,6 +84,9 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_ar);
         arFragment = (WritingArFragment)getSupportFragmentManager().findFragmentById(R.id.sceneform_fragment);
+
+        arFragment.getTransformationSystem().setSelectionVisualizer(new CustomVisualizer());
+
         bear = findViewById(R.id.bear);
         cat = findViewById(R.id.cat);
         cow = findViewById(R.id.cow);

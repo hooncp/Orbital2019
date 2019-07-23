@@ -62,7 +62,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginLeft="15dp"
-        android:text="name and itinerary"
+        android:text=""
         app:layout_constraintBottom_toBottomOf="@+id/loadingPanel"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7"

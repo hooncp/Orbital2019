@@ -24,8 +24,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 /**
@@ -33,12 +38,13 @@ import java.util.ArrayList;
  * Activities that contain this fragment must implement the
  * {@link ProfileFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link ProfileFragment#newInstance} factory method to
+ * Use the {@link ProfileFragment newInstance} factory method to
  * create an instance of this fragment.
  */
 public class ProfileFragment extends Fragment {
     private TextView users_username, users_fullname,users_country,users_language;
     private ListView landmarkList;
+    private CircleImageView profileImg;
     private ArrayList<String> arrayList = new ArrayList<>();
     ArrayAdapter<String> arrayAdapter;
 
@@ -47,6 +53,7 @@ public class ProfileFragment extends Fragment {
     private FirebaseAuth mAuth;
     private DatabaseReference dataref;
     private FirebaseDatabase database;
+    private String profileUrl;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -69,6 +76,8 @@ public class ProfileFragment extends Fragment {
         users_fullname = view.findViewById(R.id.users_fullname);
         users_country = view.findViewById(R.id.users_country);
         users_language = view.findViewById(R.id.users_language);
+
+        profileImg = view.findViewById(R.id.profile_pic);
 
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
@@ -133,6 +142,24 @@ public class ProfileFragment extends Fragment {
 
             }
         });
+
+        dataref = database.getReference().child("Users").child(mAuth.getCurrentUser().getUid()).child("profileimage");
+        dataref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.exists()){
+                    profileUrl=dataSnapshot.getValue().toString();
+                    Picasso.get().load(profileUrl).placeholder(R.drawable.account).fit().centerCrop().into(profileImg);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
 
         return view;
     }

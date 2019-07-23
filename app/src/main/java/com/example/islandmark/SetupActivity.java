@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -156,27 +157,35 @@ public class SetupActivity extends AppCompatActivity {
                         {
                             Toast.makeText(SetupActivity.this, "Profile Image stored successfully!", Toast.LENGTH_SHORT).show();
 
-                            final String downloadUrl = task.getResult().getStorage().getDownloadUrl().toString();
+                            Task<Uri> result = task.getResult().getMetadata().getReference().getDownloadUrl();
 
-                            UsersRef.child("profileimage").setValue(downloadUrl)
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task)
-                                        {
-                                            if(task.isSuccessful())
-                                            {
-                                                Intent selfIntent = new Intent(SetupActivity.this, SetupActivity.class);
-                                                startActivity(selfIntent);
-                                                //save user profile image url into firebase database
-                                                Toast.makeText(SetupActivity.this, "Profile Image stored Successfully!", Toast.LENGTH_SHORT).show();
-                                            }
-                                            else
-                                            {
-                                                String message = task.getException().getMessage();
-                                                Toast.makeText(SetupActivity.this, "Error Occured: " + message, Toast.LENGTH_SHORT).show();
-                                            }
-                                        }
-                                    });
+                            result.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    final String downloadUrl = uri.toString();
+                                    UsersRef.child("profileimage").setValue(downloadUrl)
+                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task)
+                                                {
+                                                    if(task.isSuccessful())
+                                                    {
+                                                        Intent selfIntent = new Intent(SetupActivity.this, SetupActivity.class);
+                                                        startActivity(selfIntent);
+                                                        //save user profile image url into firebase database
+                                                        Toast.makeText(SetupActivity.this, "Profile Image stored Successfully!", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                    else
+                                                    {
+                                                        String message = task.getException().getMessage();
+                                                        Toast.makeText(SetupActivity.this, "Error Occured: " + message, Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            });
+
+                                }
+                            });
+
                         }
                     }
                 });

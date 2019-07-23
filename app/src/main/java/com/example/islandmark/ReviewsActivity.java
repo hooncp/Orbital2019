@@ -26,8 +26,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ReviewsActivity extends AppCompatActivity {
     LandmarkDetails landmark;
@@ -42,7 +45,7 @@ public class ReviewsActivity extends AppCompatActivity {
     private DatabaseReference userref;
 
     private String userId;
-    private String username;
+    private String username, imageUrl;
 
     //spaghetti code lul
 
@@ -69,11 +72,24 @@ public class ReviewsActivity extends AppCompatActivity {
 
         if(mUser!=null){
             userId = mUser.getUid();
-            userref = database.getInstance().getReference().child("Users").child(userId).child("username");
+            userref = database.getReference().child("Users").child(userId).child("username");
             userref.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     username = dataSnapshot.getValue(String.class);
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+            userref = database.getReference().child("Users").child(userId).child("profileimage");
+            userref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    imageUrl = dataSnapshot.getValue(String.class);
                 }
 
                 @Override
@@ -97,6 +113,7 @@ public class ReviewsActivity extends AppCompatActivity {
                         HashMap reviewMap = new HashMap();
                         reviewMap.put("review", review);
                         reviewMap.put("username", username);
+                        reviewMap.put("profileimage",imageUrl);
 
                         dataref.updateChildren(reviewMap).addOnCompleteListener(new OnCompleteListener() {
                             @Override
@@ -143,6 +160,7 @@ public class ReviewsActivity extends AppCompatActivity {
             {
                 reviewsHolder.userName.setText(review.getUsername());
                 reviewsHolder.review.setText(review.getUser_review());
+                Picasso.get().load(review.getProfileimage()).placeholder(R.drawable.account).fit().centerCrop().into(reviewsHolder.profileimage);
 
             }
 
@@ -165,6 +183,7 @@ public class ReviewsActivity extends AppCompatActivity {
     {
 
         TextView userName, review;
+        CircleImageView profileimage;
 
         public reviewsHolder(@NonNull View itemView)
         {
@@ -172,6 +191,7 @@ public class ReviewsActivity extends AppCompatActivity {
 
             userName = itemView.findViewById(R.id.review_username);
             review = itemView.findViewById(R.id.review_message);
+            profileimage = itemView.findViewById(R.id.review_image);
         }
     }
 

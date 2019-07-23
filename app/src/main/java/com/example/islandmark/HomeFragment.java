@@ -209,9 +209,12 @@ public class HomeFragment extends Fragment {
                 public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                     String lmdistance = dataSnapshot.getValue().toString();
                     String lmname = dataSnapshot.getKey();
+                    String info = lmname + " : " + lmdistance+"m away";
 
-                    arrayListlm.add(lmname + " : " + lmdistance+"m away");
-                    arrayAdapterlm.notifyDataSetChanged();
+                    if(!arrayListlm.contains(info)) {
+                        arrayListlm.add(info);
+                        arrayAdapterlm.notifyDataSetChanged();
+                    }
                 }
 
                 @Override

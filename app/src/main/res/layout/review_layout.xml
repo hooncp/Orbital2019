@@ -9,15 +9,27 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@drawable/border_layout">
-        <TextView
-            android:id="@+id/review_username"
+        
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/blackColor"
-            android:textSize="24sp"
-            android:layout_margin="8dp"
-            android:text="Username"
-            android:textStyle="bold"/>
+            android:orientation="horizontal">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/review_image"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp" />
+            <TextView
+                android:id="@+id/review_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/blackColor"
+                android:textSize="24sp"
+                android:layout_margin="8dp"
+                android:text="Username"
+                android:textStyle="bold"/>
+        </LinearLayout>
         <TextView
             android:id="@+id/review_message"
             android:layout_width="match_parent"
