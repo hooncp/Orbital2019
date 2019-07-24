@@ -30,6 +30,7 @@ import com.google.ar.core.Plane;
 import com.google.ar.core.Trackable;
 import com.google.ar.core.TrackingState;
 import com.google.ar.sceneform.*;
+import com.google.ar.sceneform.math.Quaternion;
 import com.google.ar.sceneform.math.Vector3;
 import com.google.ar.sceneform.rendering.Color;
 import com.google.ar.sceneform.rendering.ExternalTexture;
@@ -437,6 +438,8 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
             eiffel.getScaleController().setMaxScale(10.0f);
             eiffel.getScaleController().setMinScale(0.01f);
             eiffel.setLocalScale(new Vector3(1f, 1f, 1f));
+
+            eiffel.setLocalRotation(Quaternion.axisAngle(new Vector3(1f,0,0),270));
 
             eiffel.setParent(anchorNode);
             eiffel.setRenderable(eiffelRenderable);
