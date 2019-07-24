@@ -34,7 +34,6 @@ import com.google.ar.sceneform.math.Vector3;
 import com.google.ar.sceneform.rendering.Color;
 import com.google.ar.sceneform.rendering.ExternalTexture;
 import com.google.ar.sceneform.rendering.ModelRenderable;
-import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
 
 import java.io.ByteArrayOutputStream;
@@ -50,20 +49,18 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
 
     private WritingArFragment arFragment;
     private ModelRenderable bearRenderable,
-            catRenderable,
-            cowRenderable,
-            dogRenderable,
-            elephantRenderable,
-            ferretRenderable,
-            hippopotamusRenderable,
-            horseRenderable,
-            koalaRenderable,
-            lionRenderable,
-            reindeerRenderable,
-            wolverineRenderable,
-            videoRenderable;
+                            elephantRenderable,
+                            horseRenderable,
+                            koalaRenderable,
+                            lionRenderable,
+                            reindeerRenderable,
+                            videoRenderable,
+                            volcanoRenderable,
+                            eiffelRenderable,
+                            merlionRenderable,
+                            deadmemeRenderable;
 
-    ImageView bear, cat, cow, dog, elephant, ferret, hippopotamus, horse, koala, lion, reindeer, wolverine;
+    ImageView bear, elephant, horse, koala, lion, reindeer, volcano, eiffel, merlion, deadmeme;
 
     //for the future when we import more models
     View arrayView[];
@@ -88,18 +85,15 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
         arFragment.getTransformationSystem().setSelectionVisualizer(new CustomVisualizer());
 
         bear = findViewById(R.id.bear);
-        cat = findViewById(R.id.cat);
-        cow = findViewById(R.id.cow);
-        dog = findViewById(R.id.dog);
         elephant = findViewById(R.id.elephant);
-        ferret = findViewById(R.id.ferret);
-        hippopotamus = findViewById(R.id.hippopotamus);
         horse = findViewById(R.id.horse);
         koala = findViewById(R.id.koalabear);
         lion = findViewById(R.id.lion);
         reindeer = findViewById(R.id.reindeer);
-        wolverine = findViewById(R.id.wolverine);
-
+        volcano = findViewById(R.id.volcano);
+        eiffel = findViewById(R.id.eiffel);
+        merlion = findViewById(R.id.merlion);
+        deadmeme = findViewById(R.id.deadmeme);
         setArrayView();
 
         setClickListener();
@@ -161,6 +155,7 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
                     playVideo(image.createAnchor(image.getCenterPose()),image.getExtentX(),image.getExtentZ());
                     break;
                 }
+                //add conditions here if want more video on image, rmb to create the bitmap for images
             }
         }
     }
@@ -249,68 +244,13 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
                         }
                 );
 
-        ModelRenderable.builder()
-                .setSource(this,R.raw.cat)
-                .build().thenAccept(renderable -> catRenderable = renderable)
-                .exceptionally(
-                        throwable ->{
-                            Toast toast=Toast.makeText(getApplicationContext(),"unable to load cat model",Toast.LENGTH_SHORT);
-                            toast.setGravity(Gravity.CENTER,0,0);
-                            toast.show();
-                            return null;
-                        }
-                );
 
-        ModelRenderable.builder()
-                .setSource(this,R.raw.cow)
-                .build().thenAccept(renderable -> cowRenderable = renderable)
-                .exceptionally(
-                        throwable ->{
-                            Toast toast=Toast.makeText(getApplicationContext(),"unable to load cow model",Toast.LENGTH_SHORT);
-                            toast.setGravity(Gravity.CENTER,0,0);
-                            toast.show();
-                            return null;
-                        }
-                );
-        ModelRenderable.builder()
-                .setSource(this,R.raw.dog)
-                .build().thenAccept(renderable -> dogRenderable = renderable)
-                .exceptionally(
-                        throwable ->{
-                            Toast toast=Toast.makeText(getApplicationContext(),"unable to load dog model",Toast.LENGTH_SHORT);
-                            toast.setGravity(Gravity.CENTER,0,0);
-                            toast.show();
-                            return null;
-                        }
-                );
         ModelRenderable.builder()
                 .setSource(this,R.raw.elephant)
                 .build().thenAccept(renderable -> elephantRenderable = renderable)
                 .exceptionally(
                         throwable ->{
                             Toast toast=Toast.makeText(getApplicationContext(),"unable to load elephant model",Toast.LENGTH_SHORT);
-                            toast.setGravity(Gravity.CENTER,0,0);
-                            toast.show();
-                            return null;
-                        }
-                );
-        ModelRenderable.builder()
-                .setSource(this,R.raw.ferret)
-                .build().thenAccept(renderable -> ferretRenderable = renderable)
-                .exceptionally(
-                        throwable ->{
-                            Toast toast=Toast.makeText(getApplicationContext(),"unable to load ferret model",Toast.LENGTH_SHORT);
-                            toast.setGravity(Gravity.CENTER,0,0);
-                            toast.show();
-                            return null;
-                        }
-                );
-        ModelRenderable.builder()
-                .setSource(this,R.raw.hippopotamus)
-                .build().thenAccept(renderable -> hippopotamusRenderable = renderable)
-                .exceptionally(
-                        throwable ->{
-                            Toast toast=Toast.makeText(getApplicationContext(),"unable to load hippopotamus model",Toast.LENGTH_SHORT);
                             toast.setGravity(Gravity.CENTER,0,0);
                             toast.show();
                             return null;
@@ -365,16 +305,53 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
                 );
 
         ModelRenderable.builder()
-                .setSource(this,R.raw.wolverine)
-                .build().thenAccept(renderable -> wolverineRenderable = renderable)
+                .setSource(this,R.raw.volcano)
+                .build().thenAccept(renderable -> volcanoRenderable = renderable)
                 .exceptionally(
                         throwable ->{
-                            Toast toast=Toast.makeText(getApplicationContext(),"unable to load wolverine model",Toast.LENGTH_SHORT);
+                            Toast toast=Toast.makeText(getApplicationContext(),"unable to load volcano model",Toast.LENGTH_SHORT);
                             toast.setGravity(Gravity.CENTER,0,0);
                             toast.show();
                             return null;
                         }
                 );
+
+        ModelRenderable.builder()
+                .setSource(this,R.raw.eiffel)
+                .build().thenAccept(renderable -> eiffelRenderable = renderable)
+                .exceptionally(
+                        throwable ->{
+                            Toast toast=Toast.makeText(getApplicationContext(),"unable to load eiffel model",Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER,0,0);
+                            toast.show();
+                            return null;
+                        }
+                );
+
+        ModelRenderable.builder()
+                .setSource(this,R.raw.maya2sketchfab)
+                .build().thenAccept(renderable -> merlionRenderable = renderable)
+                .exceptionally(
+                        throwable ->{
+                            Toast toast=Toast.makeText(getApplicationContext(),"unable to load merlion model",Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER,0,0);
+                            toast.show();
+                            return null;
+                        }
+                );
+
+        ModelRenderable.builder()
+                .setSource(this,R.raw.knuckles)
+                .build().thenAccept(renderable -> deadmemeRenderable = renderable)
+                .exceptionally(
+                        throwable ->{
+                            Toast toast=Toast.makeText(getApplicationContext(),"unable to load knuckles model",Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER,0,0);
+                            toast.show();
+                            return null;
+                        }
+                );
+
     }
 
     private void createModel(AnchorNode anchorNode, int selected) {
@@ -391,40 +368,6 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
         }
 
         if(selected == 2){
-            TransformableNode cat = new TransformableNode(arFragment.getTransformationSystem());
-            cat.getScaleController().setMaxScale(10.0f);
-            cat.getScaleController().setMinScale(0.01f);
-            cat.setLocalScale(new Vector3(10f,10f,10f));
-
-            cat.setParent(anchorNode);
-            cat.setRenderable(catRenderable);
-            cat.select();
-        }
-
-        if(selected == 3){
-            TransformableNode cow = new TransformableNode(arFragment.getTransformationSystem());
-            cow.getScaleController().setMaxScale(10.0f);
-            cow.getScaleController().setMinScale(0.01f);
-            cow.setLocalScale(new Vector3(10f,10f,10f));
-
-
-            cow.setParent(anchorNode);
-            cow.setRenderable(cowRenderable);
-            cow.select();
-        }
-
-        if(selected == 4){
-            TransformableNode dog = new TransformableNode(arFragment.getTransformationSystem());
-            dog.getScaleController().setMaxScale(10.0f);
-            dog.getScaleController().setMinScale(0.01f);
-            dog.setLocalScale(new Vector3(10f,10f,10f));
-
-            dog.setParent(anchorNode);
-            dog.setRenderable(dogRenderable);
-            dog.select();
-        }
-
-        if(selected == 5){
             TransformableNode elephant = new TransformableNode(arFragment.getTransformationSystem());
             elephant.getScaleController().setMaxScale(10.0f);
             elephant.getScaleController().setMinScale(0.01f);
@@ -435,29 +378,7 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
             elephant.select();
         }
 
-        if(selected == 6){
-            TransformableNode ferret = new TransformableNode(arFragment.getTransformationSystem());
-            ferret.getScaleController().setMaxScale(10.0f);
-            ferret.getScaleController().setMinScale(0.01f);
-            ferret.setLocalScale(new Vector3(10f,10f,10f));
-
-            ferret.setParent(anchorNode);
-            ferret.setRenderable(ferretRenderable);
-            ferret.select();
-        }
-
-        if(selected == 7){
-            TransformableNode hippopotamus = new TransformableNode(arFragment.getTransformationSystem());
-            hippopotamus.getScaleController().setMaxScale(10.0f);
-            hippopotamus.getScaleController().setMinScale(0.01f);
-            hippopotamus.setLocalScale(new Vector3(10f,10f,10f));
-
-            hippopotamus.setParent(anchorNode);
-            hippopotamus.setRenderable(hippopotamusRenderable);
-            hippopotamus.select();
-        }
-
-        if(selected == 8){
+        if(selected == 3){
             TransformableNode horse = new TransformableNode(arFragment.getTransformationSystem());
             horse.getScaleController().setMaxScale(10.0f);
             horse.getScaleController().setMinScale(0.01f);
@@ -468,7 +389,7 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
             horse.select();
         }
 
-        if(selected == 9){
+        if(selected == 4){
             TransformableNode koala_bear = new TransformableNode(arFragment.getTransformationSystem());
             koala_bear.getScaleController().setMaxScale(10.0f);
             koala_bear.getScaleController().setMinScale(0.01f);
@@ -479,7 +400,7 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
             koala_bear.select();
         }
 
-        if(selected == 10){
+        if(selected == 5){
             TransformableNode lion = new TransformableNode(arFragment.getTransformationSystem());
             lion.getScaleController().setMaxScale(10.0f);
             lion.getScaleController().setMinScale(0.01f);
@@ -490,7 +411,7 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
             lion.select();
         }
 
-        if(selected == 11){
+        if(selected == 6){
             TransformableNode reindeer = new TransformableNode(arFragment.getTransformationSystem());
             reindeer.getScaleController().setMaxScale(10.0f);
             reindeer.getScaleController().setMinScale(0.01f);
@@ -501,15 +422,45 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
             reindeer.select();
         }
 
-        if(selected == 12){
-            TransformableNode wolverine = new TransformableNode(arFragment.getTransformationSystem());
-            wolverine.getScaleController().setMaxScale(10.0f);
-            wolverine.getScaleController().setMinScale(0.01f);
-            wolverine.setLocalScale(new Vector3(10f,10f,10f));
+        if(selected == 7) {
+            TransformableNode volcano = new TransformableNode(arFragment.getTransformationSystem());
+            volcano.getScaleController().setMaxScale(10.0f);
+            volcano.getScaleController().setMinScale(0.01f);
+            volcano.setLocalScale(new Vector3(1f, 1f, 1f));
 
-            wolverine.setParent(anchorNode);
-            wolverine.setRenderable(wolverineRenderable);
-            wolverine.select();
+            volcano.setParent(anchorNode);
+            volcano.setRenderable(volcanoRenderable);
+            volcano.select();
+        }
+        if(selected == 8) {
+            TransformableNode eiffel = new TransformableNode(arFragment.getTransformationSystem());
+            eiffel.getScaleController().setMaxScale(10.0f);
+            eiffel.getScaleController().setMinScale(0.01f);
+            eiffel.setLocalScale(new Vector3(1f, 1f, 1f));
+
+            eiffel.setParent(anchorNode);
+            eiffel.setRenderable(eiffelRenderable);
+            eiffel.select();
+        }
+        if(selected == 9) {
+            TransformableNode merlion = new TransformableNode(arFragment.getTransformationSystem());
+            merlion.getScaleController().setMaxScale(10.0f);
+            merlion.getScaleController().setMinScale(0.01f);
+            merlion.setLocalScale(new Vector3(1f, 1f, 1f));
+
+            merlion.setParent(anchorNode);
+            merlion.setRenderable(merlionRenderable);
+            merlion.select();
+        }
+        if(selected == 10) {
+            TransformableNode deadmeme = new TransformableNode(arFragment.getTransformationSystem());
+            deadmeme.getScaleController().setMaxScale(10.0f);
+            deadmeme.getScaleController().setMinScale(0.01f);
+            deadmeme.setLocalScale(new Vector3(1f, 1f, 1f));
+
+            deadmeme.setParent(anchorNode);
+            deadmeme.setRenderable(deadmemeRenderable);
+            deadmeme.select();
         }
     }
 
@@ -522,7 +473,7 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
     private void setArrayView() {
         arrayView = new View[]{
                 //add thumbnails here
-                bear, cat, cow, dog, elephant, ferret, hippopotamus, horse, koala, lion, reindeer, wolverine
+                bear,  elephant, horse, koala, lion, reindeer, volcano, eiffel, merlion, deadmeme,
         };
     }
 
@@ -537,38 +488,34 @@ public class Ar_activity extends AppCompatActivity implements View.OnClickListen
         if(view.getId() == R.id.bear){
             selected = 1;
         }
-        else if(view.getId() == R.id.cat){
+
+        else if(view.getId() == R.id.elephant){
             selected =2;
         }
-        else if(view.getId() == R.id.cow){
+
+        else if(view.getId() == R.id.horse){
             selected =3;
         }
-        else if(view.getId() == R.id.dog){
+        else if(view.getId() == R.id.koalabear){
             selected =4;
         }
-        else if(view.getId() == R.id.elephant){
+        else if(view.getId() == R.id.lion){
             selected =5;
         }
-        else if(view.getId() == R.id.ferret){
+        else if(view.getId() == R.id.reindeer){
             selected =6;
         }
-        else if(view.getId() == R.id.hippopotamus){
+        else if(view.getId() == R.id.volcano){
             selected =7;
         }
-        else if(view.getId() == R.id.horse){
+        else if(view.getId() == R.id.eiffel){
             selected =8;
         }
-        else if(view.getId() == R.id.koalabear){
+        else if(view.getId() == R.id.merlion){
             selected =9;
         }
-        else if(view.getId() == R.id.lion){
+        else if(view.getId() == R.id.deadmeme){
             selected =10;
-        }
-        else if(view.getId() == R.id.reindeer){
-            selected =11;
-        }
-        else if(view.getId() == R.id.wolverine){
-            selected =12;
         }
 
     }
