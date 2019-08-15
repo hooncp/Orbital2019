@@ -170,7 +170,8 @@ public class LandmarkFragment extends Fragment {
                         String timespent = (String)document.get(LandmarkDetails.timespentkey);
                         String descriptionlong = (String) document.get(LandmarkDetails.descriptionlongKey);
                         String type = (String) document.get(LandmarkDetails.typeKey);
-                        LandmarkDetails details = new LandmarkDetails(description, name, location,documentID,descriptionlong,timespent,type);
+                        String namezh1 = (String) document.get("namezh");
+                        LandmarkDetails details = new LandmarkDetails(description, name, location,documentID,descriptionlong,timespent,type,namezh1);
                         if (currentStatus.equals("none")) {
                             landmarkDetailsList.add(details);
                         } else if (currentStatus.equals("Recreational") && details.type.equals("Recreational")){
@@ -208,7 +209,8 @@ public class LandmarkFragment extends Fragment {
                         String timespent = (String)document.get(LandmarkDetails.timespentkey);
                         String descriptionlong = (String) document.get(LandmarkDetails.descriptionlongKey);
                         String type = (String) document.get(LandmarkDetails.typeKey);
-                        LandmarkDetails details = new LandmarkDetails(description, name, location,documentID,descriptionlong,timespent,type);
+                        String namezh1 = (String) document.get("namezh");
+                        LandmarkDetails details = new LandmarkDetails(description, name, location,documentID,descriptionlong,timespent,type,namezh1);
                         landmarkDetailsList.add(details);
                     }
                 }
@@ -247,7 +249,8 @@ public class LandmarkFragment extends Fragment {
                         String timespent = (String)document.get(LandmarkDetails.timespentkey);
                         String descriptionlong = (String) document.get(LandmarkDetails.descriptionlongKey);
                         String type = (String) document.get(LandmarkDetails.typeKey);
-                        LandmarkDetails details = new LandmarkDetails(description, name, location,documentID,descriptionlong,timespent,type);
+                        String namezh1 = (String) document.get("namezh");
+                        LandmarkDetails details = new LandmarkDetails(description, name, location,documentID,descriptionlong,timespent,type,namezh1);
                         if (currentStatus.equals("none")) {
                             landmarkDetailsList.add(details);
                         } else if (currentStatus.equals("Recreational") && details.type.equals("Recreational")){

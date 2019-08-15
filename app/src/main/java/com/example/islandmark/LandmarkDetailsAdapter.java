@@ -31,8 +31,13 @@ public class LandmarkDetailsAdapter extends ArrayAdapter<LandmarkDetails> {
         TextView descriptionTV = rowView.findViewById(R.id.description);
 //        TextView locationTV = rowView.findViewById(R.id.location);
 
-        nameTV.setText(values.get(position).name);
-        descriptionTV.setText(values.get(position).description);
+        if (MainActivity.language.equals("en")){
+            nameTV.setText(values.get(position).name);
+            descriptionTV.setText(values.get(position).description);
+        } else {
+            nameTV.setText(values.get(position).namezh);
+            descriptionTV.setText("范例文字，请取代此段落文字。此段落文字为范例文字内容，请务必取代");
+        }
 //        locationTV.setText(values.get(position).distance +" m");
         return rowView;
     }

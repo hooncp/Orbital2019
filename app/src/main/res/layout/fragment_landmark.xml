@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:padding="10dp"
-            android:hint="Search"/>
+            android:hint="@string/Search"/>
 
         <Spinner
             android:id = "@+id/filter"

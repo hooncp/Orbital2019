@@ -103,28 +103,35 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
         BitmapDescriptor markerIcon = getMarkerIconFromDrawable(circleDrawable);
         googleMap.addMarker(new MarkerOptions()
                 .position(currentlocation)
-                .title("Current Location")
+                .title(getString(R.string.current))
                 .icon(markerIcon));
         MainActivity main = (MainActivity) getActivity();
         List<LandmarkDetails> landmarkDetailsList = main.getList();
+        String name2;
         for (LandmarkDetails landmarktemp : landmarkDetailsList) {
             double longitude = landmarktemp.location.getLongitude();
             double latitude = landmarktemp.location.getLatitude();
             LatLng temp = new LatLng(latitude, longitude);
 
+            if (MainActivity.language.equals("en")){
+                name2 = landmarktemp.name;
+            } else {
+                name2 = landmarktemp.namezh;
+            }
+
             if (landmarktemp.type.equals("Recreational")) {
                 Drawable recreaDrawable = ResourcesCompat.getDrawable(getResources(), R.drawable.recreational, null);
                 BitmapDescriptor markerIcon1 = getMarkerIconFromDrawable(recreaDrawable);
                 googleMap.addMarker(new MarkerOptions().position(temp)
-                        .title(landmarktemp.name).icon(markerIcon1));
+                        .title(name2).icon(markerIcon1));
             } else if (landmarktemp.type.equals("Cultural")) {
                 Drawable recreaDrawable = ResourcesCompat.getDrawable(getResources(), R.drawable.cult, null);
                 BitmapDescriptor markerIcon1 = getMarkerIconFromDrawable(recreaDrawable);
                 googleMap.addMarker(new MarkerOptions().position(temp)
-                        .title(landmarktemp.name).icon(markerIcon1));
+                        .title(name2).icon(markerIcon1));
             } else if (landmarktemp.type.equals("Historical")) {
                 googleMap.addMarker(new MarkerOptions().position(temp)
-                        .title(landmarktemp.name));
+                        .title(name2));
             }
         }
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(currentlocation));

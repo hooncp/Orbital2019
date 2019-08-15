@@ -188,9 +188,11 @@ public class HomeFragment extends Fragment {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     name = dataSnapshot.getValue(String.class);
-                    welcomeText.setText("Hello, "+name+"!");
 
-                    itineraryView.setText(name+"'s itinerary:");
+                    String text1 = getString(R.string.Welcome);
+                    welcomeText.setText(text1 + name + "!");
+                    String text2 = getString(R.string.itinerary);
+                    itineraryView.setText(name+ text2);
                 }
 
                 @Override
@@ -240,7 +242,7 @@ public class HomeFragment extends Fragment {
         }
 
         else{
-            welcomeText.setText("Hello, User!");
+            welcomeText.setText(getString(R.string.Welcome));
         }
 
     }

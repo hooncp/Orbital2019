@@ -5,8 +5,20 @@
     <string name="Map">Map</string>
     <string name="Account">Account</string>
     <string name="Search">Search</string>
-    <string name="Welcome">Hello, %1$s!</string>
+    <string name="Welcome">Hello </string>
     <string name="Featured">Featured: </string>
+    <string name="itinerary">\'s Itinerary </string>
+    <string name="current">Current Location</string>
+    <string name="email">Email</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="create">Create new account</string>
+    <string name="login_using">Or login with</string>
+    <string name="extrainfo">Extra information can be found if you visit the landmark</string>
+    <string name="checkAR">Check AR</string>
+    <string name="Add">Add</string>
+    <string name="Reviews">Reviews</string>
+    <string name="Locate">Locate</string>
 
 
     <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->

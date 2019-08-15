@@ -8,5 +8,17 @@
     <string name = "Search">搜索</string>
     <string name = "Welcome">嗨</string>
     <string name = "Featured">精选: </string>
+    <string name="itinerary">旅行计划: </string>
+    <string name="current">当前位置:</string>
+    <string name="email">电子邮件</string>
+    <string name="login">登录</string>
+    <string name="password">密码</string>
+    <string name="create">建立新帐户</string>
+    <string name="login_using">登录使用</string>
+    <string name="extrainfo">如果您访问地标，可以找到额外的信息</string>
+    <string name="checkAR">校验 AR</string>
+    <string name="Add">加</string>
+    <string name="Reviews">评测</string>
+    <string name="Locate">定位</string>
 
 </resources>

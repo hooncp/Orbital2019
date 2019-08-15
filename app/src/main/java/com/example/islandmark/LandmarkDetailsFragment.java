@@ -68,12 +68,24 @@ public class LandmarkDetailsFragment extends Fragment {
         if (bundle != null) {
             landmark = bundle.getParcelable("LANDMARKOBJ");
         }
-        getActivity().setTitle(landmark.name);
+        String name;
+        if (MainActivity.language.equals("en")){
+            name = landmark.name;
+        } else {
+            name = landmark.namezh;
+        }
+        getActivity().setTitle(name);
     }
 
     public void onResume() {
         super.onResume();
-        getActivity().setTitle(landmark.name);
+        String name;
+        if (MainActivity.language.equals("en")){
+            name = landmark.name;
+        } else {
+            name = landmark.namezh;
+        }
+        getActivity().setTitle(name);
     }
 
     @Override
@@ -162,17 +174,26 @@ public class LandmarkDetailsFragment extends Fragment {
             }
         });
         tv4 = view.findViewById(R.id.textView4);
-        tv4.setText("Distance : " + landmark.getDistance() + " m away");
         tv = view.findViewById(R.id.textView);
-        tv.setText(landmark.name);
         tv3 = view.findViewById(R.id.textView3);
-        String test = landmark.descriptionlong.replaceAll("newline", "\n");
-        tv3.setText(test);
         tv2 = view.findViewById(R.id.textView2);
-        tv2.setText("Type: " + landmark.type);
         tv5 = view.findViewById(R.id.textView5);
-        tv5.setText("Duration: Roughly " + landmark.timespent + "hrs");
         imageView = view.findViewById(R.id.imageView);
+        if (MainActivity.language.equals("en")){
+            tv4.setText("Distance : " + landmark.getDistance() + " m away");
+            tv.setText(landmark.name);
+            String test = landmark.descriptionlong.replaceAll("newline", "\n");
+            tv3.setText(test);
+            tv2.setText("Type: " + landmark.type);
+            tv5.setText("Duration: Roughly " + landmark.timespent + "hrs");
+        } else {
+            tv4.setText("距离 : " + landmark.getDistance() + " m");
+            tv.setText(landmark.namezh);
+            String test = "范例文字，请取代此段落文字。此段落文字为范例文字内容，请务必取代。范例文字，请取代此段落文字。此段落文字为范例文字内容，请务必取代。范例文字，请取代此段落文字。此段落文字为范例文字内容，请务必取代。范例文字，请取代此段落文字。此段落文字为范例文字内容，请务必取代。";
+            tv3.setText(test);
+            tv2.setText("类型:  " + "休闲");
+            tv5.setText("花费时间:  " + landmark.timespent + "hrs");
+        }
 
         StorageReference storageRef = FirebaseStorage.getInstance().getReference();
         storageRef.child(landmark.getlinkURL()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
