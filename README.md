@@ -6,7 +6,8 @@ It is created with Android Studio, Firebase and ARCore
 
 ![Poster](Poster_V1.png)
 
-
+## Showcase Video:
+https://drive.google.com/file/d/1wLqyhWUAkMuHDVqUHZguPPdaycy0LlQI/view?usp=sharing
 
 ## Features:
 A few things you can do with IslandMark:
